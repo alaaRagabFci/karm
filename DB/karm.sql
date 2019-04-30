@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 29, 2019 at 04:17 PM
+-- Generation Time: Apr 30, 2019 at 11:54 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -32,6 +32,7 @@ CREATE TABLE `additions` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `price` double NOT NULL,
+  `meal_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -93,13 +94,25 @@ INSERT INTO `countries` (`id`, `name`, `created_at`, `updated_at`) VALUES
 CREATE TABLE `meals` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `image` varchar(255) NOT NULL,
   `price` double NOT NULL,
   `calories` double NOT NULL,
-  `description` text,
+  `contents` text,
   `active` tinyint(1) NOT NULL DEFAULT '1',
+  `is_deleted` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `meal_images`
+--
+
+CREATE TABLE `meal_images` (
+  `id` int(11) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `meal_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -138,7 +151,8 @@ CREATE TABLE `meal_sizes` (
 CREATE TABLE `notifications` (
   `id` int(11) NOT NULL,
   `notification` text NOT NULL,
-  `type` enum('Casher','Driver','User') NOT NULL
+  `user_type` enum('Casher','Driver','User','Order') NOT NULL,
+  `type` enum('New_Order','Order_Accepted','Order_Cancelled','Order_Finished','Cashir_Accept_Order','Driver_Ongoing','Driver_Ongoing') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -168,6 +182,7 @@ CREATE TABLE `order_details` (
   `id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `meal_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -187,6 +202,36 @@ CREATE TABLE `promocodes` (
   `trips_limit` int(11) DEFAULT NULL,
   `description` text NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
+  `is_general` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `promocodes_orders`
+--
+
+CREATE TABLE `promocodes_orders` (
+  `id` int(11) NOT NULL,
+  `promo_code_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `receiving_types`
+--
+
+CREATE TABLE `receiving_types` (
+  `id` int(11) NOT NULL,
+  `type` varchar(100) NOT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -215,10 +260,10 @@ CREATE TABLE `settings` (
   `id` int(11) NOT NULL,
   `facebook` varchar(100) NOT NULL,
   `twitter` varchar(100) NOT NULL,
-  `linked_in` varchar(100) NOT NULL,
-  `latitude` double NOT NULL,
-  `longitude` double NOT NULL,
-  `address` text NOT NULL
+  `instgram` varchar(100) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `phone` varchar(50) NOT NULL,
+  `emergency_call` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -230,9 +275,9 @@ CREATE TABLE `settings` (
 CREATE TABLE `sliders` (
   `id` int(11) NOT NULL,
   `image` varchar(200) NOT NULL,
-  `size` varchar(100) NOT NULL,
   `sort` int(11) NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
+  `meal_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -246,7 +291,30 @@ CREATE TABLE `sliders` (
 CREATE TABLE `sms_messages` (
   `id` int(11) NOT NULL,
   `message` text NOT NULL,
-  `type` enum('Casher','Driver','User') NOT NULL
+  `user_type` enum('User') NOT NULL,
+  `type` enum('Activation_Account') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `the_users`
+--
+
+CREATE TABLE `the_users` (
+  `id` int(11) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `display_name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `phone` varchar(50) NOT NULL,
+  `photo` varchar(255) NOT NULL,
+  `type` enum('User','Driver','Cashir') NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT '0',
+  `token` varchar(255) NOT NULL,
+  `is_deleted` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -259,13 +327,8 @@ CREATE TABLE `users` (
   `id` int(10) NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `photo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `type` enum('User','Admin','Casher','Driver') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'User',
-  `active` tinyint(1) NOT NULL DEFAULT '0',
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `is_deleted` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -274,8 +337,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `photo`, `password`, `type`, `active`, `token`, `remember_token`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'karm@karm.com', '', '$2y$10$WmeLbczKuYFnEtCnOgm.ie3phaI4kG.lxAvjrC9bG2LViWv8TUxfW', 'User', 0, '', 'vv4kbRTIja4zJxTpzATsKrrZhsz6l7it3i78RhtDDF298k8RDvY6Z9Fw1PEF', NULL, '2017-10-24 09:30:04', '2019-04-12 19:15:10');
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'Admin', 'karm@karm.com', '$2y$10$WmeLbczKuYFnEtCnOgm.ie3phaI4kG.lxAvjrC9bG2LViWv8TUxfW', 'vv4kbRTIja4zJxTpzATsKrrZhsz6l7it3i78RhtDDF298k8RDvY6Z9Fw1PEF', '2017-10-24 09:30:04', '2019-04-12 19:15:10');
 
 -- --------------------------------------------------------
 
@@ -290,7 +353,7 @@ CREATE TABLE `user_addresses` (
   `latitude` double NOT NULL,
   `longitude` double NOT NULL,
   `description` text,
-  `notes` text,
+  `street` varchar(100) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -309,35 +372,6 @@ CREATE TABLE `user_devices` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `user_phones`
---
-
-CREATE TABLE `user_phones` (
-  `id` int(11) NOT NULL,
-  `phone` varchar(50) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_promocodes`
---
-
-CREATE TABLE `user_promocodes` (
-  `id` int(11) NOT NULL,
-  `promo_code_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `is_used` tinyint(1) NOT NULL DEFAULT '0',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 --
 -- Indexes for dumped tables
 --
@@ -346,7 +380,8 @@ CREATE TABLE `user_promocodes` (
 -- Indexes for table `additions`
 --
 ALTER TABLE `additions`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `meal_id` (`meal_id`);
 
 --
 -- Indexes for table `categories`
@@ -373,6 +408,13 @@ ALTER TABLE `countries`
 --
 ALTER TABLE `meals`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `meal_images`
+--
+ALTER TABLE `meal_images`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `meal_id` (`meal_id`);
 
 --
 -- Indexes for table `meal_promocodes`
@@ -419,6 +461,21 @@ ALTER TABLE `promocodes`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `promocodes_orders`
+--
+ALTER TABLE `promocodes_orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `promo_code_id` (`promo_code_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `order_id` (`order_id`);
+
+--
+-- Indexes for table `receiving_types`
+--
+ALTER TABLE `receiving_types`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `regions`
 --
 ALTER TABLE `regions`
@@ -435,12 +492,19 @@ ALTER TABLE `settings`
 -- Indexes for table `sliders`
 --
 ALTER TABLE `sliders`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `meal_id` (`meal_id`);
 
 --
 -- Indexes for table `sms_messages`
 --
 ALTER TABLE `sms_messages`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `the_users`
+--
+ALTER TABLE `the_users`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -463,21 +527,6 @@ ALTER TABLE `user_addresses`
 --
 ALTER TABLE `user_devices`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Indexes for table `user_phones`
---
-ALTER TABLE `user_phones`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Indexes for table `user_promocodes`
---
-ALTER TABLE `user_promocodes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `promo_code_id` (`promo_code_id`),
   ADD KEY `user_id` (`user_id`);
 
 --
@@ -512,6 +561,12 @@ ALTER TABLE `countries`
 -- AUTO_INCREMENT for table `meals`
 --
 ALTER TABLE `meals`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `meal_images`
+--
+ALTER TABLE `meal_images`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -551,6 +606,18 @@ ALTER TABLE `promocodes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `promocodes_orders`
+--
+ALTER TABLE `promocodes_orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `receiving_types`
+--
+ALTER TABLE `receiving_types`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `regions`
 --
 ALTER TABLE `regions`
@@ -575,6 +642,12 @@ ALTER TABLE `sms_messages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `the_users`
+--
+ALTER TABLE `the_users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
@@ -593,20 +666,14 @@ ALTER TABLE `user_devices`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `user_phones`
---
-ALTER TABLE `user_phones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `user_promocodes`
---
-ALTER TABLE `user_promocodes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `additions`
+--
+ALTER TABLE `additions`
+  ADD CONSTRAINT `additions_ibfk_1` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`);
 
 --
 -- Constraints for table `category_promocodes`
@@ -614,6 +681,12 @@ ALTER TABLE `user_promocodes`
 ALTER TABLE `category_promocodes`
   ADD CONSTRAINT `category_promocodes_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
   ADD CONSTRAINT `category_promocodes_ibfk_2` FOREIGN KEY (`promo_code_id`) REFERENCES `promocodes` (`id`);
+
+--
+-- Constraints for table `meal_images`
+--
+ALTER TABLE `meal_images`
+  ADD CONSTRAINT `meal_images_ibfk_1` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`);
 
 --
 -- Constraints for table `meal_promocodes`
@@ -644,23 +717,31 @@ ALTER TABLE `order_details`
   ADD CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`);
 
 --
+-- Constraints for table `promocodes_orders`
+--
+ALTER TABLE `promocodes_orders`
+  ADD CONSTRAINT `promocodes_orders_ibfk_1` FOREIGN KEY (`promo_code_id`) REFERENCES `promocodes` (`id`),
+  ADD CONSTRAINT `promocodes_orders_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `promocodes_orders_ibfk_3` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`);
+
+--
+-- Constraints for table `sliders`
+--
+ALTER TABLE `sliders`
+  ADD CONSTRAINT `sliders_ibfk_1` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`);
+
+--
+-- Constraints for table `user_addresses`
+--
+ALTER TABLE `user_addresses`
+  ADD CONSTRAINT `user_addresses_ibfk_1` FOREIGN KEY (`region_id`) REFERENCES `the_users` (`id`),
+  ADD CONSTRAINT `user_addresses_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `the_users` (`id`);
+
+--
 -- Constraints for table `user_devices`
 --
 ALTER TABLE `user_devices`
-  ADD CONSTRAINT `user_devices_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
-
---
--- Constraints for table `user_phones`
---
-ALTER TABLE `user_phones`
-  ADD CONSTRAINT `user_phones_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
-
---
--- Constraints for table `user_promocodes`
---
-ALTER TABLE `user_promocodes`
-  ADD CONSTRAINT `user_promocodes_ibfk_1` FOREIGN KEY (`promo_code_id`) REFERENCES `promocodes` (`id`),
-  ADD CONSTRAINT `user_promocodes_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `user_devices_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `the_users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
