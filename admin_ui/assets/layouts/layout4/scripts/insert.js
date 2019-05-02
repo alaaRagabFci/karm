@@ -23,10 +23,10 @@ $(document).ready(function() {
               $('.addForm')[0].reset();
                 $('#addModal').modal('hide');
               swal({
-                title: "Created successfully",
+                title: "تم التسجيل بنجاح",
                 type: "success",
                 closeOnConfirm: false,
-                confirmButtonText: "OK !",
+                confirmButtonText: "موافق !",
                 confirmButtonColor: "#ec6c62",
                 allowOutsideClick: true
               });
@@ -35,10 +35,10 @@ $(document).ready(function() {
             error: function(){
               // $('#addModal').modal('hide');
               swal({
-                title: "Error ocurred, check form",
+                title: "حدث خطأ",
                 type: "error",
                 closeOnConfirm: false,
-                confirmButtonText: "OK !",
+                confirmButtonText: "موافق !",
                 confirmButtonColor: "#ff0000",
                 allowOutsideClick: true
               });
@@ -68,10 +68,10 @@ $(document).ready(function() {
            success: function(res){
              $('#editModal').modal('hide');
              swal({
-              title: "Updated successfully",
+              title: "تم التحديث بنجاح",
               type: "success",
               closeOnConfirm: false,
-              confirmButtonText: "OK !",
+              confirmButtonText: "موافق !",
               confirmButtonColor: "#ec6c62",
               allowOutsideClick: true
             });
@@ -80,10 +80,10 @@ $(document).ready(function() {
            error: function(){
              // $('#editModal').modal('hide');
              swal({
-              title: "Error updating data, check form",
+              title: "خطأ في تحديث البيانات",
               type: "error",
               closeOnConfirm: false,
-              confirmButtonText: "OK !",
+              confirmButtonText: "موافق !",
               confirmButtonColor: "#ff0000",
               allowOutsideClick: true
             });

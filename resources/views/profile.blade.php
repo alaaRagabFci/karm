@@ -1,9 +1,9 @@
 @extends('admin_layouts.inc')
 
-@section('title','Admin Profile')
-@section('header','Admin Profile')
-@section('head_description','Manage your account')
-@section('breadcrumb','Profile')
+@section('title','بروفايل الأدمن')
+@section('header','بروفايل الأدمن')
+@section('head_description','أعدادات حسابك')
+@section('breadcrumb','بروفايلي')
 @section('styles')
     <link href="{{ asset('/admin_ui/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/admin_ui/assets/pages/css/profile.min.css')}}" rel="stylesheet" type="text/css" />
@@ -91,7 +91,7 @@
                                             <div class="form-group">
                                                 <div class="fileinput fileinput-new" data-provides="fileinput">
                                                     <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-                                                        <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" /> </div>
+                                                        <img src="{{ asset('/admin_ui/'.Auth::id().'.png')}}" alt="" /> </div>
                                                     <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"> </div>
                                                     <div>
                         <span class="btn default btn-file">

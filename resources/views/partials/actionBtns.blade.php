@@ -5,4 +5,7 @@
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		<button type="submit" class="btn btn-danger btn-xs"><i class="fa fa-times"></i></button>
 	</form>
+	@if(strpos(\Request::url(), 'cashair') || strpos(\Request::url(), 'drivers'))
+	<button type="button" class="changePassword2 Btn btn btn-default btn-xs" data-id="{{$id}}">كلمة السر<i class="fa fa-pencil"></i></button>
+@endif
 </div>

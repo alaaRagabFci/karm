@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="rtl">
     <!-- BEGIN HEAD -->
     <head>
         <meta charset="utf-8" />
-        <title>WASL | @yield('title')</title>
+        <title>كرم الريف | @yield('title')</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <meta content="Preview page of Metronic Admin Theme #4 for statistics, charts, recent events and reports" name="description" />
@@ -15,19 +15,19 @@
         <link href="{{ asset('/admin_ui/assets/global/plugins/font-awesome/css/all.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('/admin_ui/assets/global/plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('/admin_ui/assets/global/plugins/simple-line-icons/simple-line-icons.min.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('/admin_ui/assets/global/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('/admin_ui/assets/global/plugins/bootstrap/css/bootstrap-rtl.min.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('/admin_ui/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('/admin_ui/assets/global/plugins/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('/admin_ui/assets/global/plugins/select2/css/select2-bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('/admin_ui/assets/global/plugins/bootstrap-sweetalert/sweetalert.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('/admin_ui/assets/global/plugins/datatables/datatables.min.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('/admin_ui/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('/admin_ui/assets/global/css/components.min.css')}}" rel="stylesheet" id="style_components" type="text/css" />
+<link href="{{ asset('/admin_ui/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap-rtl.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('/admin_ui/assets/global/css/components-rtl.min.css')}}" rel="stylesheet" id="style_components" type="text/css" />
 
-<link href="{{ asset('/admin_ui/assets/global/css/plugins.min.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('/admin_ui/assets/layouts/layout4/css/layout.min.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('/admin_ui/assets/layouts/layout4/css/themes/default.min.css')}}" rel="stylesheet" type="text/css" id="style_color" />
-<link href="{{ asset('/admin_ui/assets/layouts/layout4/css/custom.min.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('/admin_ui/assets/global/css/plugins-rtl.min.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('/admin_ui/assets/layouts/layout4/css/layout-rtl.min.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('/admin_ui/assets/layouts/layout4/css/themes/default-rtl.min.css')}}" rel="stylesheet" type="text/css" id="style_color" />
+<link href="{{ asset('/admin_ui/assets/layouts/layout4/css/custom-rtl.min.min.css')}}" rel="stylesheet" type="text/css" />
 
         <style type="text/css">
             .alerts-list{
@@ -51,7 +51,7 @@
                 <!-- BEGIN LOGO -->
                 <div class="page-logo">
                     <a href="{{ url('/') }}">
-                        <img src="{{ asset('/admin_ui/logo1.png')}}" style="margin: 4px !important;" alt="logo" class="logo-default" /> </a>
+                        <img src="{{ asset('/admin_ui/logo1.png')}}" style="height: 69px;width: 69px;margin: 4px !important;margin: 4px !important;" alt="logo" class="logo-default" /> </a>
                     <div class="menu-toggler sidebar-toggler">
                         <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
                     </div>
@@ -80,12 +80,12 @@
                                 <ul class="dropdown-menu dropdown-menu-default">
                                     <li>
                                         <a href="{{ url('profile',Auth::user()->name) }}">
-                                            <i class="icon-user"></i> My Profile </a>
+                                            <i class="icon-user"></i> بروفايلي </a>
                                     </li>
                                     <li>
                                         <a onclick="event.preventDefault();
                                            document.getElementById('logout-form').submit();" href="{{ route('logout') }}">
-                                            <i class="icon-key"></i> Log Out </a>
+                                            <i class="icon-key"></i> تسجيل الخروج </a>
                                     </li>
                                   <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
@@ -136,7 +136,7 @@
                     <!-- BEGIN PAGE BREADCRUMB -->
                     <ul class="page-breadcrumb breadcrumb">
                         <li>
-                            <a href="{{ url('/adminpanel') }}">Home</a>
+                            <a href="{{ url('/') }}">الرئيسية</a>
                             <i class="fa fa-circle"></i>
                         </li>
                         <li>
@@ -158,14 +158,39 @@
         <!-- END CONTAINER -->
         <!-- BEGIN FOOTER -->
         <div class="page-footer">
-            <div class="page-footer-inner"> 2019 &copy; Designed By
+            <div class="page-footer-inner"> 2019 &copy; تم التصميم
                 <a target="_blank" href="https://www.linkedin.com/in/alaa-ragab-606a07b7/">Eng Alaa Ragab</a> &nbsp;|&nbsp;
-                <a href="{{ url('/') }}">WASL!</a>
+                <a href="{{ url('/') }}">كرم الريف!</a>
             </div>
             <div class="scroll-to-top">
                 <i class="icon-arrow-up"></i>
             </div>
         </div>
+        <div class="modal fade" id="changePasswordModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="editEmployeeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="editEmployeeModalLabel"><i class="fa fa-pencil"></i> تغير كلمة السر</h4>
+                    </div>
+                    <form role="form" id="changePassword_form" method="POST" class="editForm"  action="{{ url($modal.'/change-password') }}" data-toggle="validator">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">الرقم السري</label>
+                                <input type="password" name="password" required class="form-control">
+                                <span class="help-block with-errors errorName"></span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" id="submit2" class="btn btn-primary">موافق</button>
+                            <button type="button" class="btn btn-danger closeModal">غلق</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <!-- END FOOTER -->
         <div class="quick-nav-overlay"></div>
 <script src="{{ asset('/admin_ui/assets/global/plugins/jquery.min.js')}}" type="text/javascript"></script>
@@ -218,7 +243,14 @@
             }
         }
 
-            
+        $(document.body).validator().on('click', '.changePassword2', function() {
+            var self = $(this);
+            self.button('loading');
+            $('#changePasswordModal form').attr("data-id", self.data('id') );
+            $('#changePasswordModal').modal('show');
+            self.button('reset');
+
+        });
       $(document.body).validator().on('click', '.edit', function() {
        var self = $(this);
        self.button('loading');
@@ -245,6 +277,8 @@
       });
    });
 
+
+
          $('#clickmewow').click(function(){
             $('#radio1003').attr('checked', 'checked');
         });
@@ -252,6 +286,7 @@
         $('.closeModal').click(function(){
             $('.modal').modal('hide');
         });
+
     })
 </script>
 @yield('scripts')

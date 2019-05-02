@@ -1,9 +1,9 @@
 @extends('admin_layouts.inc')
 
-@section('title','Admin Dashboard')
-@section('header','Admin Dashboard')
-@section('head_description','statistics, charts, recent events and reports')
-@section('breadcrumb','Dashboard')
+@section('title','لوحة التحكم')
+@section('header','لوحة التحكم')
+@section('head_description','الأحصائيات, الأشكال البيانيه والتقرير')
+@section('breadcrumb','لوحة التحكم')
 @section('content')
                     <!-- BEGIN PAGE BASE CONTENT -->
                     <div class="row">
@@ -15,7 +15,7 @@
                                         <h3 class="font-green-sharp">
                                         <span data-counter="counterup" data-value="50"></span>
                                         </h3>
-                                        <small>ONLINE VEHICLES</small>
+                                        <small>الطلبات قيد التجهيز</small>
                                     </div>
                                     <div class="icon">
                                         <i class="fa fa-truck"></i>
@@ -42,7 +42,7 @@
                                         <h3 class="font-red-haze">
                                         <span data-counter="counterup" data-value="50"></span>
                                         </h3>
-                                        <small>OFFLINE VEHICLES</small>
+                                        <small>الطلبات المنتهيه</small>
                                     </div>
                                     <div class="icon">
                                         <i class="fa fa-truck"></i>
@@ -69,7 +69,7 @@
                                         <h3 class="font-blue-sharp">
                                           <span data-counter="counterup" data-value="50"></span>
                                         </h3>
-                                        <small>OUT OF NETWORK VEHICLES</small>
+                                        <small>المستخدمين</small>
                                     </div>
                                     <div class="icon">
                                         <i class="fa fa-truck"></i>
@@ -96,7 +96,7 @@
                                         <h3 class="font-purple-soft">
                                             <span data-counter="counterup" data-value="50"></span>
                                         </h3>
-                                        <small>DRIVERS</small>
+                                        <small>كوبونات الخصم</small>
                                     </div>
                                     <div class="icon">
                                         <i class="fa fa-male"></i>

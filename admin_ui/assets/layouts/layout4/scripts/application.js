@@ -19,10 +19,10 @@
                     self.button('reset');
                     if(oTable != undefined)
                         swal({
-                          title: "Deleted successfully", 
+                          title: "تم المسح بنجاح",
                           type: "success",
                           closeOnConfirm: false,
-                          confirmButtonText: "OK !",
+                          confirmButtonText: "موافق !",
                           confirmButtonColor: "#ec6c62",
                           allowOutsideClick: true
                         });

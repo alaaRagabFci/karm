@@ -22,7 +22,7 @@ return [
     |
     */
 
-    'baseUrl' => 'http://localhost/wasl',
+    'baseUrl' => 'http://localhost/karm',
 
     /*
     |--------------------------------------------------------------------------

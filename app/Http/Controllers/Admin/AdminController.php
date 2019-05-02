@@ -22,21 +22,6 @@ class AdminController extends AbstractController {
 //dashboard
 	public function dashboard(Request $request)
 	{
-//        $data_array =  array(
-//            "identityNumber" => "7001345730",
-//            "commercialRecordNumber" => "1000000000",
-//            "commercialRecordIssueDateHijri" => "1423-12-12",
-//            "phoneNumber" => "+966555555555",
-//            "extensionNumber" => "1234",
-//            "emailAddress" => "feras@test.com",
-//            "فراس غسان العويد" => "managerName",
-//            "managerPhoneNumber" => "+966555555555",
-//            "managerMobileNumber" => "+966555555555"
-//        );
-//
-//	    $result = $this->callAPI('POST', 'http://jowd.appsgateway.website/jowd-backend/api/admin/categories', json_encode($data_array));
-//        $response = json_decode($result, true);
-//        var_dump($response); die;
         return view('dashboard')
 		     ->with('modal','noModal');
 	}
@@ -44,7 +29,7 @@ class AdminController extends AbstractController {
 //profile info
     public function profile(Request $request)
     {
-        $user = $this->userService->getUser(Auth::user()->id);
+        $user = $this->userService->getAdmin(Auth::user()->id);
         return view('profile')
             ->with('modal','noModal')
             ->with('flag',0)

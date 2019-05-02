@@ -1,5 +1,39 @@
 $(document).ready(function()
 {
+    $("#changePasswordModal form").validator().on('submit', function(e){
+        if (!e.isDefaultPrevented())
+        {
+            var self = $(this);
+            $.ajax({
+                url: self.closest('form').attr('action')+ '/' + self.data('id') ,
+                type: "POST",
+                data: self.serialize(),
+                success: function(res){
+                    $('#changePasswordModal').modal('hide');
+                    swal({
+                        title: "تم تغير كلمة السر",
+                        type: "success",
+                        closeOnConfirm: false,
+                        confirmButtonText: "موافق !",
+                        confirmButtonColor: "#ec6c62",
+                        allowOutsideClick: true
+                    });
+                    oTable.draw();
+                },
+                error: function(){
+                    swal({
+                        title: "حدث خطأ",
+                        type: "error",
+                        closeOnConfirm: false,
+                        confirmButtonText: "موافق !",
+                        confirmButtonColor: "#ff0000",
+                        allowOutsideClick: true
+                    });
+                }
+            });
+            e.preventDefault();
+        }
+    });
     //  $("#submitForm").on('click', function(e){
     //   $('#addModal').modal('hide');
     // });
@@ -24,10 +58,10 @@ $(document).ready(function()
     function error()
     {
         swal({
-            title: "Error ocurred, check form",
+            title: "حدث خطأ",
             type: "error",
             closeOnConfirm: false,
-            confirmButtonText: "Ok!",
+            confirmButtonText: "موافق!",
             confirmButtonColor: "#ff0000",
             allowOutsideClick: true
         });
@@ -38,10 +72,10 @@ $(document).ready(function()
     {
         $('#addModal').modal('hide');
         swal({
-            title: "Created successfully",
+            title: "تم التسجيل بنجاح",
             type: "success",
             closeOnConfirm: false,
-            confirmButtonText: "Ok!",
+            confirmButtonText: "موافق!",
             confirmButtonColor: "#ec6c62",
             allowOutsideClick: true
         });
@@ -73,10 +107,10 @@ $(document).ready(function()
     function error_update()
     {
         swal({
-            title: "Error updating data, check form",
+            title: "خطأ في تحديث البيانات",
             type: "error",
             closeOnConfirm: false,
-            confirmButtonText: "Ok!",
+            confirmButtonText: "موافق!",
             confirmButtonColor: "#ff0000",
             allowOutsideClick: true
         });
@@ -86,10 +120,10 @@ $(document).ready(function()
     function afterSuccess_update(res)
     {
         swal({
-            title: "Updated successfully",
+            title: "تم التحديث بنجاح",
             type: "success",
             closeOnConfirm: false,
-            confirmButtonText: "Ok!",
+            confirmButtonText: "موافق!",
             confirmButtonColor: "#ec6c62",
             allowOutsideClick: true
         });
