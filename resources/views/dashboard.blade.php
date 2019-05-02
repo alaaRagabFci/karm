@@ -13,7 +13,7 @@
                                 <div class="display">
                                     <div class="number">
                                         <h3 class="font-green-sharp">
-                                        <span data-counter="counterup" data-value="50"></span>
+                                        <span data-counter="counterup" data-value="{{ $ordersUnderPreparing }}"></span>
                                         </h3>
                                         <small>الطلبات قيد التجهيز</small>
                                     </div>
@@ -24,11 +24,11 @@
                                 <div class="progress-info">
                                     <div class="progress">
                                         <span style="width: 50%;" class="progress-bar progress-bar-success green-sharp">
-                                            <span class="sr-only">50%</span>
+                                            <span class="sr-only">{{ $ordersUnderPreparing }}%</span>
                                         </span>
                                     </div>
                                     <div class="status">
-                                        <div class="status-number"> 50% </div>
+                                        <div class="status-number"> {{ $ordersUnderPreparing }}% </div>
                                     </div>
                                 </div>
                             </div>
@@ -40,7 +40,7 @@
                                 <div class="display">
                                     <div class="number">
                                         <h3 class="font-red-haze">
-                                        <span data-counter="counterup" data-value="50"></span>
+                                        <span data-counter="counterup" data-value="{{ $ordersCancelled }}"></span>
                                         </h3>
                                         <small>الطلبات المنتهيه</small>
                                     </div>
@@ -51,11 +51,11 @@
                                 <div class="progress-info">
                                     <div class="progress">
                                         <span style="width: 50%;" class="progress-bar progress-bar-success green-sharp">
-                                            <span class="sr-only">50%</span>
+                                            <span class="sr-only">{{ $ordersCancelled }}%</span>
                                         </span>
                                     </div>
                                     <div class="status">
-                                        <div class="status-number"> 50% </div>
+                                        <div class="status-number"> {{ $ordersCancelled }}% </div>
                                     </div>
                                 </div>
                             </div>
@@ -67,7 +67,7 @@
                                 <div class="display">
                                     <div class="number">
                                         <h3 class="font-blue-sharp">
-                                          <span data-counter="counterup" data-value="50"></span>
+                                          <span data-counter="counterup" data-value="{{ $users }}"></span>
                                         </h3>
                                         <small>المستخدمين</small>
                                     </div>
@@ -78,11 +78,11 @@
                                  <div class="progress-info">
                                     <div class="progress">
                                         <span style="width: 50%;" class="progress-bar progress-bar-success green-sharp">
-                                            <span class="sr-only">50%</span>
+                                            <span class="sr-only">{{ $users }}%</span>
                                         </span>
                                     </div>
                                     <div class="status">
-                                        <div class="status-number"> 50% </div>
+                                        <div class="status-number"> {{ $users }}% </div>
                                     </div>
                                 </div>
                             </div>
@@ -94,7 +94,7 @@
                                 <div class="display">
                                     <div class="number">
                                         <h3 class="font-purple-soft">
-                                            <span data-counter="counterup" data-value="50"></span>
+                                            <span data-counter="counterup" data-value="{{ $promocodes }}"></span>
                                         </h3>
                                         <small>كوبونات الخصم</small>
                                     </div>
@@ -105,11 +105,11 @@
                                 <div class="progress-info">
                                     <div class="progress">
                                         <span style="width: 50%;" class="progress-bar progress-bar-success green-sharp">
-                                            <span class="sr-only">50%</span>
+                                            <span class="sr-only">{{ $promocodes }}%</span>
                                         </span>
                                     </div>
                                     <div class="status">
-                                        <div class="status-number"> 50% </div>
+                                        <div class="status-number"> {{ $promocodes }}% </div>
                                     </div>
                                 </div>
                             </div>
