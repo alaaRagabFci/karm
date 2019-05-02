@@ -26,5 +26,13 @@
 </div>
 
 
+{{--<div class="form-group">--}}
+{{--<label class="switch">--}}
+    {{--<input name="is_active" class="form-control" type="checkbox" checked>--}}
+    {{--<span class="slider round"></span>--}}
+{{--</label>--}}
+{{--</div>--}}
+
+
 
 

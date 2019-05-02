@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 02, 2019 at 09:38 PM
+-- Generation Time: May 02, 2019 at 11:41 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -59,7 +59,12 @@ CREATE TABLE `categories` (
 
 INSERT INTO `categories` (`id`, `name`, `image`, `sort`, `is_active`, `created_at`, `updated_at`) VALUES
 (3, 'alaa', '/images/uploads/1556740420b417155b4e5681560d750246fc098443image.png', 0, 1, '2019-05-01 19:53:40', '2019-05-01 19:53:40'),
-(6, 'alaa', '/images/uploads/1556754511d29a8045f186f04bf2e103e50ae01467image.png', 0, 1, '2019-05-01 23:48:31', '2019-05-01 23:48:31');
+(6, 'alaa', '/images/uploads/1556754511d29a8045f186f04bf2e103e50ae01467image.png', 0, 1, '2019-05-01 23:48:31', '2019-05-01 23:48:31'),
+(7, 'alaa', '/images/uploads/1556832824b19a6b9c178cdb38d577785254300b17image.png', 0, 1, '2019-05-02 21:33:44', '2019-05-02 21:33:44'),
+(8, 'Hossam2', '/images/uploads/1556832866defaf39f1d9f9bdacf7bbf8c97527443image.png', 0, 1, '2019-05-02 21:34:26', '2019-05-02 21:34:26'),
+(9, 'John Doe', '/images/uploads/15568329002d33e66c1723ba393be7de4c03c9307fimage.png', 0, 1, '2019-05-02 21:35:00', '2019-05-02 21:35:00'),
+(10, 'John Doe', '/images/uploads/15568329155dd6720a9f1f8d6b306896f3e56064b0image.png', 0, 1, '2019-05-02 21:35:15', '2019-05-02 21:35:15'),
+(11, 'asd', '/images/uploads/155683293763f5066a3c62c27da83fb74d8085704bimage.png', 0, 1, '2019-05-02 21:35:37', '2019-05-02 21:35:37');
 
 -- --------------------------------------------------------
 
@@ -401,7 +406,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'karm@karm.com', '$2y$10$WmeLbczKuYFnEtCnOgm.ie3phaI4kG.lxAvjrC9bG2LViWv8TUxfW', 'fANV9SvkS7OQlokBbzji3mtd2nSwzY8nq9cWVhrEFYl1u4BkDiV9QFYmbOso', '2017-10-24 09:30:04', '2019-04-12 19:15:10');
+(1, 'Admin', 'karm@karm.com', '$2y$10$WmeLbczKuYFnEtCnOgm.ie3phaI4kG.lxAvjrC9bG2LViWv8TUxfW', 'u2wP5ev4588CaIpy5AblKHfDgMWZg3F9uPut0pLTOPXRqBb4zf1q1AeIgE9h', '2017-10-24 09:30:04', '2019-04-12 19:15:10');
 
 -- --------------------------------------------------------
 
@@ -650,7 +655,7 @@ ALTER TABLE `additions`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `category_promocodes`
@@ -786,88 +791,88 @@ ALTER TABLE `workers`
 -- Constraints for table `additions`
 --
 ALTER TABLE `additions`
-  ADD CONSTRAINT `additions_ibfk_1` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`);
+  ADD CONSTRAINT `additions_ibfk_1` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `category_promocodes`
 --
 ALTER TABLE `category_promocodes`
-  ADD CONSTRAINT `category_promocodes_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
-  ADD CONSTRAINT `category_promocodes_ibfk_2` FOREIGN KEY (`promo_code_id`) REFERENCES `promocodes` (`id`);
+  ADD CONSTRAINT `category_promocodes_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `category_promocodes_ibfk_2` FOREIGN KEY (`promo_code_id`) REFERENCES `promocodes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `meals`
 --
 ALTER TABLE `meals`
-  ADD CONSTRAINT `meals_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
+  ADD CONSTRAINT `meals_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `meal_images`
 --
 ALTER TABLE `meal_images`
-  ADD CONSTRAINT `meal_images_ibfk_1` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`);
+  ADD CONSTRAINT `meal_images_ibfk_1` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `meal_promocodes`
 --
 ALTER TABLE `meal_promocodes`
-  ADD CONSTRAINT `meal_promocodes_ibfk_1` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`),
-  ADD CONSTRAINT `meal_promocodes_ibfk_2` FOREIGN KEY (`promo_code_id`) REFERENCES `promocodes` (`id`);
+  ADD CONSTRAINT `meal_promocodes_ibfk_1` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `meal_promocodes_ibfk_2` FOREIGN KEY (`promo_code_id`) REFERENCES `promocodes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `meal_sizes`
 --
 ALTER TABLE `meal_sizes`
-  ADD CONSTRAINT `meal_sizes_ibfk_1` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`);
+  ADD CONSTRAINT `meal_sizes_ibfk_1` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`casher_id`) REFERENCES `workers` (`id`),
-  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`driver_id`) REFERENCES `workers` (`id`),
-  ADD CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `orders_ibfk_4` FOREIGN KEY (`receving_type_id`) REFERENCES `receiving_types` (`id`);
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`casher_id`) REFERENCES `workers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`driver_id`) REFERENCES `workers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `orders_ibfk_4` FOREIGN KEY (`receving_type_id`) REFERENCES `receiving_types` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `order_details`
 --
 ALTER TABLE `order_details`
-  ADD CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`),
-  ADD CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`);
+  ADD CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `promocodes_orders`
 --
 ALTER TABLE `promocodes_orders`
-  ADD CONSTRAINT `promocodes_orders_ibfk_1` FOREIGN KEY (`promo_code_id`) REFERENCES `promocodes` (`id`),
-  ADD CONSTRAINT `promocodes_orders_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `promocodes_orders_ibfk_3` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`);
+  ADD CONSTRAINT `promocodes_orders_ibfk_1` FOREIGN KEY (`promo_code_id`) REFERENCES `promocodes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `promocodes_orders_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `promocodes_orders_ibfk_3` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `regions`
 --
 ALTER TABLE `regions`
-  ADD CONSTRAINT `regions_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`);
+  ADD CONSTRAINT `regions_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `sliders`
 --
 ALTER TABLE `sliders`
-  ADD CONSTRAINT `sliders_ibfk_1` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`);
+  ADD CONSTRAINT `sliders_ibfk_1` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `user_addresses`
 --
 ALTER TABLE `user_addresses`
-  ADD CONSTRAINT `user_addresses_ibfk_1` FOREIGN KEY (`region_id`) REFERENCES `workers` (`id`),
-  ADD CONSTRAINT `user_addresses_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `workers` (`id`);
+  ADD CONSTRAINT `user_addresses_ibfk_1` FOREIGN KEY (`region_id`) REFERENCES `regions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_addresses_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `the_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `user_devices`
 --
 ALTER TABLE `user_devices`
-  ADD CONSTRAINT `user_devices_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `workers` (`id`);
+  ADD CONSTRAINT `user_devices_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `the_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
