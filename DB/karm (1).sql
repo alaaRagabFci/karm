@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 02, 2019 at 05:15 PM
+-- Generation Time: May 02, 2019 at 09:38 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -241,15 +241,22 @@ CREATE TABLE `promocodes` (
   `value` int(11) NOT NULL,
   `code` varchar(50) NOT NULL,
   `type` enum('Expiration','Number') NOT NULL,
-  `expiration_date` timestamp NULL DEFAULT NULL,
+  `expiration_date` date DEFAULT NULL,
   `trips_limit` int(11) DEFAULT NULL,
   `description` text NOT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `is_active` tinyint(1) NOT NULL DEFAULT '1',
   `is_general` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `promocodes`
+--
+
+INSERT INTO `promocodes` (`id`, `value`, `code`, `type`, `expiration_date`, `trips_limit`, `description`, `is_active`, `is_general`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(5, 55, 'asd123', 'Number', NULL, 5, 'asd', 1, 0, '2019-05-02 18:33:10', '2019-05-02 19:11:08', NULL);
 
 -- --------------------------------------------------------
 
@@ -703,7 +710,7 @@ ALTER TABLE `order_details`
 -- AUTO_INCREMENT for table `promocodes`
 --
 ALTER TABLE `promocodes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `promocodes_orders`

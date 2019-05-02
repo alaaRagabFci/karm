@@ -31,17 +31,17 @@
         <link rel="shortcut icon" href="favicon.ico" /> </head>
     <!-- END HEAD -->
 
-    <body class=" login">
+    <body class=" login" style="background-color: #fff !important;">
         <!-- BEGIN LOGO -->
-        <div class="logo">
+        <div class="logo" style="margin: 16px auto 0">
                 <img src="{{ asset('/admin_ui/logo1.png')}}" style="height: 130px;width: 153px;margin: 4px !important;" alt="" />
         </div>
         <!-- END LOGO -->
         <!-- BEGIN LOGIN -->
-        <div class="content">
+        <div class="content" style="background-color: #f36a10 !important;">
             <!-- BEGIN LOGIN FORM -->
             <form class="login-form" action="{{ route('login') }}" method="post">
-                <h3 class="form-title font-green">تسجيل الدخول</h3>
+                <h3 class="form-title font-green" style="color: #fff !important;">تسجيل الدخول</h3>
                 {{ csrf_field() }}
                 @if (count($errors) > 0)
                 <div class="alert alert-danger">
@@ -64,8 +64,8 @@
                     <label class="control-label visible-ie8 visible-ie9">الرقم السري</label>
                     <input class="form-control form-control-solid placeholder-no-fix" required type="password" autocomplete="off" placeholder="الرقم السري" name="password" value="{{ old('password') }}" /> </div>
                 <div class="form-actions">
-                    <button type="submit" class="btn green uppercase">دخول</button>
-                    <label class="rememberme check mt-checkbox mt-checkbox-outline">
+                    <button style="background-color: #fff; border-color: #fff; color: #000;" type="submit" class="btn green uppercase">دخول</button>
+                    <label style="color: #fff !important;" class="rememberme check mt-checkbox mt-checkbox-outline">
                         <input type="checkbox" name="remember" value="1" />تذكر
                         <span></span>
                     </label>
