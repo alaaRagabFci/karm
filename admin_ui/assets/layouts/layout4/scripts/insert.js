@@ -7,7 +7,7 @@ $(document).ready(function() {
         if (!e.isDefaultPrevented())
         {
           var self = $(this);
-          var data = convert(self.serialize());
+            var data = convert(self.serialize());
           $.ajax({
             url: self.closest('form').attr('action'),
             type: "POST",

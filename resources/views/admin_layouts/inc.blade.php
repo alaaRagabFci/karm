@@ -277,6 +277,37 @@
       });
    });
 
+        $(document.body).validator().on('click', '.edit2', function() {
+            var self = $(this);
+            self.button('loading');
+            $.ajax({
+                url: "{{ url($modal) }}" + "/" + self.data('id') + "/edit" ,
+                type: "GET",
+                success: function(res){
+                    self.button('reset');
+                    $data = JSON.parse(res.data);
+                    populateForm($data, document.getElementsByClassName("editForm")[0] );
+                    $('#editModal form').attr("data-id", self.data('id') );
+                    if($('#trips_limit2').val() == "")
+                        $('#trips_limit2').attr("disabled", "true");
+                    if($('#expiration_date2').val() == "")
+                        $('#expiration_date2').attr("disabled", "true");
+
+                    $('#editModal').modal('show');
+                },
+                error: function(){
+                    self.button('reset');
+                    $('.alerts-list').append(
+                        '<li>\
+                        <div class="alert alert-danger alert-dismissable">\
+                        <i class="icon-remove-sign"></i> <strong>Opps!</strong>حدث خطأ.\
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>\
+                        </div>\
+                        </li>');
+                }
+            });
+        });
+
 
 
          $('#clickmewow').click(function(){

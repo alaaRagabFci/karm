@@ -42,7 +42,7 @@
 
 <li class="nav-item {{Request::is('categories') ? 'start active open':'' }}">
     <a href="{{ url('categories') }}" class="nav-link nav-toggle">
-        <i class="fas fa-folder-open"></i>
+        <i class="fa fa-list-alt" aria-hidden="true"></i>
         <span class="title">الأقسام الرئيسية</span>
         <span class="selected"></span>
     </a>
@@ -72,7 +72,7 @@
         </li>
         <li class="nav-item {{Request::is('cashairs') ? 'start active open':'' }}">
             <a href="{{ url('/cashairs') }}" class="nav-link ">
-                <i class="fas fa-utensils"></i>
+                <i class="fa fa-cutlery" aria-hidden="true"></i>
                 <span class="title"> الكاشير </span>
                 <span class="selected"></span>
             </a>
@@ -90,7 +90,7 @@
 
 <li class="nav-item {{Request::is('meals') ? 'start active open':'' }}">
     <a href="{{ url('meals') }}" class="nav-link nav-toggle">
-        <i class="fa fa-cloud-meatball"></i>
+        <i class="fa fa-cutlery" aria-hidden="true"></i>
         <span class="title">الواجبات</span>
         <span class="selected"></span>
     </a>
@@ -108,6 +108,14 @@
     <a href="{{ url('sliders') }}" class="nav-link nav-toggle">
         <i class="fab fa-adversal"></i>
         <span class="title">سلايدر العروض</span>
+        <span class="selected"></span>
+    </a>
+</li>
+
+<li class="nav-item {{Request::is('promocodes') ? 'start active open':'' }}">
+    <a href="{{ url('promocodes') }}" class="nav-link nav-toggle">
+        <i class="fa fa-tag"></i>
+        <span class="title">كوبونات خصم</span>
         <span class="selected"></span>
     </a>
 </li>

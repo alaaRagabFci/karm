@@ -76,6 +76,9 @@ Route::group(['middleware' => ['web']], function () {
 
         //receving types
         Route::Resource('/receving-types', 'RecevingTypeController');
+
+        //promocodes
+        Route::Resource('/promocodes', 'PromocodeController');
     });
 
     Route::get('/lang/{lang}' , function($lang){
