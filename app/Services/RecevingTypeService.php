@@ -25,12 +25,18 @@ class RecevingTypeService
     public function datatables($receivingTypes)
     {
         $tableData = Datatables::of($receivingTypes)
+            ->addColumn('is_active', function (ReceivingType $receivingType){
+                if($receivingType->is_active)
+                    return '<span class="label label-sm label-primary"> نشط </span>';
+                else
+                    return '<span class="label label-sm label-warning">غير نشط</span>';
+            })
             ->addColumn('actions', function ($data)
             {
                 return view('partials.actionBtns')->with('controller','receving-types')
                     ->with('id', $data->id)
                     ->render();
-            })->rawColumns(['actions'])->make(true);
+            })->rawColumns(['actions', 'is_active'])->make(true);
 
         return $tableData ;
     }
