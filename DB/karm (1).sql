@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 02, 2019 at 11:41 PM
+-- Generation Time: May 05, 2019 at 05:07 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -58,13 +58,7 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`, `image`, `sort`, `is_active`, `created_at`, `updated_at`) VALUES
-(3, 'alaa', '/images/uploads/1556740420b417155b4e5681560d750246fc098443image.png', 0, 1, '2019-05-01 19:53:40', '2019-05-01 19:53:40'),
-(6, 'alaa', '/images/uploads/1556754511d29a8045f186f04bf2e103e50ae01467image.png', 0, 1, '2019-05-01 23:48:31', '2019-05-01 23:48:31'),
-(7, 'alaa', '/images/uploads/1556832824b19a6b9c178cdb38d577785254300b17image.png', 0, 1, '2019-05-02 21:33:44', '2019-05-02 21:33:44'),
-(8, 'Hossam2', '/images/uploads/1556832866defaf39f1d9f9bdacf7bbf8c97527443image.png', 0, 1, '2019-05-02 21:34:26', '2019-05-02 21:34:26'),
-(9, 'John Doe', '/images/uploads/15568329002d33e66c1723ba393be7de4c03c9307fimage.png', 0, 1, '2019-05-02 21:35:00', '2019-05-02 21:35:00'),
-(10, 'John Doe', '/images/uploads/15568329155dd6720a9f1f8d6b306896f3e56064b0image.png', 0, 1, '2019-05-02 21:35:15', '2019-05-02 21:35:15'),
-(11, 'asd', '/images/uploads/155683293763f5066a3c62c27da83fb74d8085704bimage.png', 0, 1, '2019-05-02 21:35:37', '2019-05-02 21:35:37');
+(13, 'بيتزا', '/images/uploads/155690756761abaafcd367a1b2053d1bb59a45e68bimage.png', 0, 1, '2019-05-03 18:19:27', '2019-05-03 18:19:34');
 
 -- --------------------------------------------------------
 
@@ -96,7 +90,7 @@ CREATE TABLE `countries` (
 --
 
 INSERT INTO `countries` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'الرياض', '2019-04-29 12:48:09', '2019-05-02 12:18:58');
+(1, 'الرياض', '2019-04-29 12:48:09', '2019-05-03 18:17:02');
 
 -- --------------------------------------------------------
 
@@ -122,9 +116,7 @@ CREATE TABLE `meals` (
 --
 
 INSERT INTO `meals` (`id`, `name`, `price`, `calories`, `contents`, `category_id`, `is_active`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(3, 'asd', 100, 2, 'dfg', 3, 0, NULL, '2019-05-01 20:17:33', '2019-05-01 20:21:37'),
-(4, 'alaa', 5, 55, 'asd', 3, 1, NULL, '2019-05-01 20:55:16', '2019-05-01 20:55:16'),
-(5, 'alaa', 10, 10, 'asd', 3, 1, NULL, '2019-05-01 20:56:17', '2019-05-01 20:56:17');
+(8, 'alaa', 55, 55, 'شسي', 13, 1, NULL, '2019-05-03 18:22:46', '2019-05-03 18:22:46');
 
 -- --------------------------------------------------------
 
@@ -143,11 +135,7 @@ CREATE TABLE `meal_images` (
 --
 
 INSERT INTO `meal_images` (`id`, `image`, `meal_id`) VALUES
-(29, '/images/uploads/1556753934e35320695f2951a0151731e44d68396eimage.png', 5),
-(32, '/images/uploads/15567540034aab3f304ab4e9da14774ec9fb01b413image.png', 3),
-(33, '/images/uploads/1556754003565f10e21ddb4f347e642c046e16bc6eimage.png', 3),
-(34, '/images/uploads/1556754003ce216d809c7b6dd2ecb6a4872042379aimage.png', 3),
-(35, '/images/uploads/155675400376e10d72cb640233c5186cfa7af90d07image.png', 3);
+(40, '/images/uploads/1556907766cf5f0a2b335e74fa0ae4fb5cdcf4e298image.png', 8);
 
 -- --------------------------------------------------------
 
@@ -181,9 +169,7 @@ CREATE TABLE `meal_sizes` (
 --
 
 INSERT INTO `meal_sizes` (`id`, `meal_id`, `size`, `price`, `created_at`, `updated_at`) VALUES
-(3, 4, 'حجم صغير', 55, '2019-05-02 10:58:56', '2019-05-02 10:58:56'),
-(5, 5, 'حجم صغير', 10, '2019-05-02 11:11:05', '2019-05-02 11:11:05'),
-(6, 5, 'ff', 22, '2019-05-02 11:11:19', '2019-05-02 11:11:19');
+(1, 8, 'حجم صغير', 55, '2019-05-03 18:23:17', '2019-05-03 18:23:17');
 
 -- --------------------------------------------------------
 
@@ -208,16 +194,25 @@ CREATE TABLE `notifications` (
 
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `the_user_id` int(11) NOT NULL,
   `status` enum('Under_Preparing','Ongoing','Cancelled') NOT NULL,
-  `casher_id` int(11) NOT NULL,
-  `driver_id` int(11) NOT NULL,
+  `casher_id` int(11) DEFAULT NULL,
+  `driver_id` int(11) DEFAULT NULL,
   `receving_type_id` int(11) NOT NULL,
   `amount` double NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `the_user_id`, `status`, `casher_id`, `driver_id`, `receving_type_id`, `amount`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 15, 'Under_Preparing', 39, NULL, 2, 500, '2019-05-04 14:50:21', '2019-05-04 15:00:26', NULL),
+(3, 15, 'Ongoing', 39, 28, 2, 33, '2019-05-04 14:50:21', '2019-05-04 15:00:44', NULL),
+(4, 14, 'Cancelled', 39, 28, 2, 33, '2019-05-04 14:50:21', '2019-05-04 16:36:47', NULL);
 
 -- --------------------------------------------------------
 
@@ -234,6 +229,15 @@ CREATE TABLE `order_details` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `order_details`
+--
+
+INSERT INTO `order_details` (`id`, `order_id`, `meal_id`, `quantity`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 8, 1, '2019-05-04 15:01:16', '2019-05-04 15:01:16', NULL),
+(3, 4, 8, 2, '2019-05-04 15:01:16', '2019-05-04 15:33:07', NULL),
+(4, 3, 8, 3, '2019-05-04 15:01:16', '2019-05-04 15:33:10', NULL);
 
 -- --------------------------------------------------------
 
@@ -261,7 +265,9 @@ CREATE TABLE `promocodes` (
 --
 
 INSERT INTO `promocodes` (`id`, `value`, `code`, `type`, `expiration_date`, `trips_limit`, `description`, `is_active`, `is_general`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(5, 55, 'asd123', 'Number', NULL, 5, 'asd', 1, 0, '2019-05-02 18:33:10', '2019-05-02 19:11:08', NULL);
+(5, 55, 'asd123', 'Number', NULL, 5, 'asd', 1, 0, '2019-05-02 18:33:10', '2019-05-04 15:42:56', NULL),
+(6, 44, '444', 'Number', NULL, 44, 'kkk', 1, 0, '2019-05-03 13:24:15', '2019-05-04 15:42:59', NULL),
+(7, 55, 'jjjىىىىىى', 'Expiration', '2002-02-20', NULL, 'سس', 1, 0, '2019-05-03 18:24:20', '2019-05-04 15:43:02', NULL);
 
 -- --------------------------------------------------------
 
@@ -292,6 +298,13 @@ CREATE TABLE `receiving_types` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `receiving_types`
+--
+
+INSERT INTO `receiving_types` (`id`, `type`, `is_active`, `created_at`, `updated_at`) VALUES
+(2, 'محلي', 1, '2019-05-03 18:22:01', '2019-05-03 18:22:01');
+
 -- --------------------------------------------------------
 
 --
@@ -305,6 +318,13 @@ CREATE TABLE `regions` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `regions`
+--
+
+INSERT INTO `regions` (`id`, `name`, `country_id`, `created_at`, `updated_at`) VALUES
+(28, 'Hossam2', 1, '2019-05-03 19:05:33', '2019-05-03 19:05:33');
 
 -- --------------------------------------------------------
 
@@ -327,7 +347,7 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `facebook`, `twitter`, `instgram`, `location`, `phone`, `emergency_call`) VALUES
-(1, 'https://www.facebook.com/', 'https://www.twitter.com/', 'https://www.instgram.com/', 'https://goo.gl/maps/XcUCWUL1Wpa9ZDbB6', '01013696675', 1911);
+(1, 'https://www.facebook.com/', 'https://www.twitter.com/', 'https://www.instgram.com/', 'https://goo.gl/maps/XcUCWUL1Wpa9ZDbB6', '+92145688', 1911);
 
 -- --------------------------------------------------------
 
@@ -382,8 +402,10 @@ CREATE TABLE `the_users` (
 --
 
 INSERT INTO `the_users` (`id`, `username`, `email`, `phone`, `is_active`, `token`, `is_blocked`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(14, 'مستخدم 1', NULL, '01013696675', 1, 'PgNWk6jFEZZ0aL6Dk+05PAhv0no=', 1, NULL, '2019-05-01 13:43:44', '2019-05-01 13:43:44'),
-(15, 'Alaa ragab', NULL, '010136966753', 1, '7VSKW646oI3sRuWE0WgKkXZ8oRg=', 0, NULL, '2019-05-01 16:30:53', '2019-05-01 16:31:02');
+(14, 'مستخدم 1', NULL, '01013696675', 0, 'PgNWk6jFEZZ0aL6Dk+05PAhv0no=', 0, NULL, '2019-05-01 13:43:44', '2019-05-02 22:52:54'),
+(15, 'Alaa ragab', NULL, '010136966753', 1, '7VSKW646oI3sRuWE0WgKkXZ8oRg=', 0, NULL, '2019-05-01 16:30:53', '2019-05-01 16:31:02'),
+(18, 'Alaa ragjab', NULL, '010143696675', 1, 'aiUj826LExcZWnk+EJIp2i3A+0=', 1, '2019-05-02 20:53:02', '2019-05-02 22:52:24', '2019-05-02 22:53:02'),
+(20, 'xde', NULL, '010136960675', 0, '8VL92uR6JnAsAzJNi828japflRs=', 0, '2019-05-03 16:20:07', '2019-05-03 18:19:52', '2019-05-03 18:20:07');
 
 -- --------------------------------------------------------
 
@@ -406,7 +428,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'karm@karm.com', '$2y$10$WmeLbczKuYFnEtCnOgm.ie3phaI4kG.lxAvjrC9bG2LViWv8TUxfW', 'u2wP5ev4588CaIpy5AblKHfDgMWZg3F9uPut0pLTOPXRqBb4zf1q1AeIgE9h', '2017-10-24 09:30:04', '2019-04-12 19:15:10');
+(1, 'Admin', 'karm@karm.com', '$2y$10$WmeLbczKuYFnEtCnOgm.ie3phaI4kG.lxAvjrC9bG2LViWv8TUxfW', 'fNN4IHdyE0wZaOrlgVtuXjgRIPHR3WDuXKUfT9AAmqKvLpACHB8zuj3Sskhc', '2017-10-24 09:30:04', '2019-04-12 19:15:10');
 
 -- --------------------------------------------------------
 
@@ -416,7 +438,7 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `creat
 
 CREATE TABLE `user_addresses` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `the_user_id` int(11) NOT NULL,
   `region_id` int(11) NOT NULL,
   `latitude` double NOT NULL,
   `longitude` double NOT NULL,
@@ -425,6 +447,14 @@ CREATE TABLE `user_addresses` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `user_addresses`
+--
+
+INSERT INTO `user_addresses` (`id`, `the_user_id`, `region_id`, `latitude`, `longitude`, `description`, `street`, `created_at`, `updated_at`) VALUES
+(4, 15, 28, 12.5445, 13.45554, 'شش', 'طه حسين', '2019-05-04 14:28:53', '2019-05-04 14:28:53'),
+(5, 14, 28, 30.0444196, 31.23571160000006, 'ggg', 'طه حسين2', '2019-05-05 02:58:48', '2019-05-05 02:58:48');
 
 -- --------------------------------------------------------
 
@@ -467,8 +497,13 @@ CREATE TABLE `workers` (
 --
 
 INSERT INTO `workers` (`id`, `username`, `display_name`, `email`, `phone`, `image`, `type`, `password`, `token`, `is_blocked`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(28, 'xde', 'مستخدم 1', NULL, '01013696675', '/images/uploads/155671905355ee595b2cdcffa5b319bc70e150fbadimage.png', 'Driver', 'MTIzNDU2Nzg5', 'SRnvDqk5m9hDk9XXC1fSYvHLS2U=', 1, NULL, '2019-05-01 13:57:33', '2019-05-01 19:55:28'),
-(29, 'cto', 'مستخدم 1', NULL, '010136966753', '/images/uploads/1556724180beb1ee29324f6a7bb2d533f1cc3f5decimage.png', 'Cashair', 'MTIz', 'bMfo1VNUaZ4q5OtmlD0CRnHuueM=', 0, '2019-05-02 09:51:05', '2019-05-01 15:23:00', '2019-05-02 11:51:05');
+(28, 'xde', 'مستخدم 1', NULL, '01013696675', '/images/uploads/155698837649a711e54939f0bcba4917df0446f009image.png', 'Driver', 'MTIzNDU2Nzg5', 'SRnvDqk5m9hDk9XXC1fSYvHLS2U=', 1, NULL, '2019-05-01 13:57:33', '2019-05-04 16:46:16'),
+(29, 'cto', 'مستخدم 1', NULL, '010136966753', '/images/uploads/1556724180beb1ee29324f6a7bb2d533f1cc3f5decimage.png', 'Cashair', 'MTIz', 'bMfo1VNUaZ4q5OtmlD0CRnHuueM=', 0, '2019-05-02 09:51:05', '2019-05-01 15:23:00', '2019-05-02 11:51:05'),
+(31, 'asd', 'asd', NULL, '0101369667453', '/images/uploads/1556837608bb18aadd6208cee9665b6c11f17662d9image.png', 'Driver', 'MTIz', 'Dhfa7FZ5ymjMlOvlsLRCLu+y+c=', 1, '2019-05-02 20:53:47', '2019-05-02 22:53:28', '2019-05-02 22:53:47'),
+(33, 'karm@karm.com', 'م444ستخدم 1', NULL, '0101444436966475', '/images/uploads/155683764439286ad56da410d25ca8f8cf803b5eafimage.png', 'Cashair', 'MTIz', 'ENJtpyZbjEYda4IicWVlKhEXXjI=', 0, '2019-05-02 20:54:24', '2019-05-02 22:54:04', '2019-05-02 22:54:24'),
+(37, 'ببب', 'مستخدم 12555', NULL, '0101365966753', '/images/uploads/1556907643bcfcace6b8e0f192b019dcfbed54cfafimage.png', 'Driver', 'MTIzNDU2Nw==', 'otiEnljUmOcCE40wQOlxEVr1b4=', 1, '2019-05-03 16:21:01', '2019-05-03 18:20:43', '2019-05-03 18:21:01'),
+(39, 'كاشير 1', 'كاشير1', NULL, '010125422', '/images/uploads/1556907690c9bd97046c1db658bf23984df421c94fimage.png', 'Cashair', 'MTIzNDU2Nw==', 'ZgdDDqmwTbzDwQV+3RYJnhGm7Uo=', 0, NULL, '2019-05-03 18:21:30', '2019-05-03 18:21:36'),
+(40, 'cc', 'bb', NULL, '5655', '/images/uploads/1556910687050cd3f4ff83a0da96a0384f20742237image.png', 'Cashair', 'MTIzNDU2Nw==', 'eJNQef0KpGgTOvPCGj1miln5VM=', 0, NULL, '2019-05-03 19:11:27', '2019-05-03 19:11:27');
 
 --
 -- Indexes for dumped tables
@@ -485,7 +520,8 @@ ALTER TABLE `additions`
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- Indexes for table `category_promocodes`
@@ -541,7 +577,7 @@ ALTER TABLE `notifications`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
+  ADD KEY `user_id` (`the_user_id`),
   ADD KEY `casher_id` (`casher_id`),
   ADD KEY `driver_id` (`driver_id`),
   ADD KEY `receving_type_id` (`receving_type_id`);
@@ -580,6 +616,7 @@ ALTER TABLE `receiving_types`
 --
 ALTER TABLE `regions`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`),
   ADD KEY `country_id` (`country_id`);
 
 --
@@ -622,7 +659,7 @@ ALTER TABLE `users`
 --
 ALTER TABLE `user_addresses`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
+  ADD KEY `user_id` (`the_user_id`),
   ADD KEY `region_id` (`region_id`);
 
 --
@@ -649,13 +686,13 @@ ALTER TABLE `workers`
 -- AUTO_INCREMENT for table `additions`
 --
 ALTER TABLE `additions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `category_promocodes`
@@ -673,13 +710,13 @@ ALTER TABLE `countries`
 -- AUTO_INCREMENT for table `meals`
 --
 ALTER TABLE `meals`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `meal_images`
 --
 ALTER TABLE `meal_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `meal_promocodes`
@@ -691,7 +728,7 @@ ALTER TABLE `meal_promocodes`
 -- AUTO_INCREMENT for table `meal_sizes`
 --
 ALTER TABLE `meal_sizes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `notifications`
@@ -703,19 +740,19 @@ ALTER TABLE `notifications`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `promocodes`
 --
 ALTER TABLE `promocodes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `promocodes_orders`
@@ -733,7 +770,7 @@ ALTER TABLE `receiving_types`
 -- AUTO_INCREMENT for table `regions`
 --
 ALTER TABLE `regions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -745,7 +782,7 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT for table `sliders`
 --
 ALTER TABLE `sliders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `sms_messages`
@@ -757,7 +794,7 @@ ALTER TABLE `sms_messages`
 -- AUTO_INCREMENT for table `the_users`
 --
 ALTER TABLE `the_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -769,7 +806,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_addresses`
 --
 ALTER TABLE `user_addresses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `user_devices`
@@ -781,7 +818,7 @@ ALTER TABLE `user_devices`
 -- AUTO_INCREMENT for table `workers`
 --
 ALTER TABLE `workers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- Constraints for dumped tables
@@ -831,7 +868,7 @@ ALTER TABLE `meal_sizes`
 ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`casher_id`) REFERENCES `workers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`driver_id`) REFERENCES `workers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`the_user_id`) REFERENCES `the_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `orders_ibfk_4` FOREIGN KEY (`receving_type_id`) REFERENCES `receiving_types` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -866,7 +903,7 @@ ALTER TABLE `sliders`
 --
 ALTER TABLE `user_addresses`
   ADD CONSTRAINT `user_addresses_ibfk_1` FOREIGN KEY (`region_id`) REFERENCES `regions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `user_addresses_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `the_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `user_addresses_ibfk_2` FOREIGN KEY (`the_user_id`) REFERENCES `the_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `user_devices`

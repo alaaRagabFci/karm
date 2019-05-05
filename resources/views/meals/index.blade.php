@@ -23,7 +23,7 @@
             <div class="col-md-6">
               <div class="btn-group">
                 <button  data-toggle="modal" data-target="#addModal" id="sample_editable_1_new" class="btn btn-primary">
-                  أضافة قسم
+                  أضافة وجبة
                   <i class="fa fa-plus"></i>
                 </button>
               </div>

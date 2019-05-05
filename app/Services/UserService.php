@@ -38,12 +38,24 @@ class UserService
                 else
                     return '<span class="label label-sm label-primary"> غير محظور </span>';
             })
+            ->addColumn('addresses', function (TheUser $user){
+                if(count($user->getAddresses) > 0 )
+                    return '<a href="user-addresses/'.$user->id.'"> <span class="label label-sm label-primary"> عرض العناوين </span></a>';
+                else
+                    return '<a href="user-addresses/'.$user->id.'"> <span class="label label-sm label-success"> اضافة عناوين </span></a>';
+            })
+            ->addColumn('orders', function (TheUser $user){
+                if(count($user->getOrders) > 0 )
+                    return '<button type="button" class="user-orders Btn btn btn-primary btn-xs" data-id="'.$user->id.'">عرض التفاصيل</button>';
+                else
+                    return '<span class="label label-sm label-success"> لا يوجد طلبات </span>';
+            })
             ->addColumn('actions', function ($data)
             {
                 return view('partials.actionBtns')->with('controller','users')
                     ->with('id', $data->id)
                     ->render();
-            })->rawColumns(['actions', 'is_blocked', 'is_active'])->make(true);
+            })->rawColumns(['actions', 'is_blocked', 'is_active', 'addresses', 'orders'])->make(true);
 
         return $tableData ;
     }

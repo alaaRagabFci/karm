@@ -31,6 +31,7 @@
         </div>
               <table class="table table-striped table-bordered table-hover" id="descriptions">
                 <thead>
+                  <th class="col-md-1">رقم الكوبون</th>
                   <th class="col-md-1">الكود</th>
                   <th class="col-md-1">القيمه</th>
                   <th class="col-md-1">نوع الكوبون</th>
@@ -41,6 +42,7 @@
                 <tbody>
                   @foreach ($tableData->getData()->data as $row)
                   <tr>
+                    <td>{{  $row->id }}</td>
                     <td>{{  $row->code }}</td>
                     <td>{{  $row->value }}</td>
                     <td>{{  $row->type }}</td>
@@ -103,13 +105,15 @@
           'autoWidth'   : false,
           "ajax": {{ $tableData->getData()->recordsFiltered }},
           "columns": [
+          {data: 'id', name: 'id'},
           {data: 'code', name: 'code'},
           {data: 'value', name: 'value'},
           {data: 'type', name: 'type'},
           {data: 'description', name: 'description'},
           {data: 'is_active', name: 'is_active'},
           {data: 'actions', name: 'actions', orderable: false, searchable: false}
-          ]
+          ],
+          order: [ [0, 'desc'] ]
         })
       });
     </script>

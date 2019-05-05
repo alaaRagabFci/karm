@@ -1,46 +1,40 @@
 <?php namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Util\AbstractController;
-use App\Models\Type;
-use App\Services\OrderService;
 use Illuminate\Http\Request;
-use App\Services\UserService;
+use App\Services\RegionService;
+use App\Services\UserAddressService;
 use Response;
 
-class UserController extends AbstractController {
+class UserAddressController extends AbstractController {
 
-    public $userService, $orderService;
-    public function __construct(UserService $userService, OrderService $orderService)
+    public $regionService, $userAddressService;
+    public function __construct(RegionService $regionService, UserAddressService $userAddressService)
     {
         $this->middleware('auth');
-        $this->userService = $userService;
-        $this->orderService = $orderService;
+        $this->regionService = $regionService;
+        $this->userAddressService = $userAddressService;
     }
 
     /**
      * List all clients.
      * @author Alaa <alaaragab34@gmail.com>
      */
-    public function index(Request $request)
+    public function index(Request $request, $id)
     {
-        $users  = $this->userService->listUsers();
-        $tableData = $this->userService->datatables($users);
+        $addresses  = $this->userAddressService->listUserAddreses($id);
+        $regions  = $this->regionService->listRegions();
+        $tableData = $this->userAddressService->datatables($addresses);
 
         if($request->ajax())
             return $tableData;
 
-        return view('users.index')
-              ->with('modal', 'users')
-              ->with('modal_', 'عضو')
+        return view('user-addresses.index')
+              ->with('regions', $regions)
+              ->with('id', $id)
+              ->with('modal', 'user-addresses')
+              ->with('modal_', 'عناوين العضو')
               ->with('tableData', $tableData);
-    }
-
-    public function getUserOrders(Request $request, $id){
-        $userOrders  = $this->orderService->getOrderDetails($id, 'user');
-        $tableData = $this->orderService->userOrdersdatatables($userOrders);
-
-        return view('users.orders')
-            ->with('tableData_', $tableData);
     }
 
     /**
@@ -55,8 +49,8 @@ class UserController extends AbstractController {
     public function store(Request $request)
     {
         $data  = $request->all();
-        $user = $this->userService->createUser($data);
-        return $user;
+        $userAddress = $this->userAddressService->createUserAddress($data);
+        return $userAddress;
     }
     /**
      * Edit client.
@@ -67,8 +61,8 @@ class UserController extends AbstractController {
      */
     public function edit(Request $request , $id)
     {
-        $user = $this->userService->getUser($id);
-        return Response::json(['msg'=>'Adding Successfully','data'=> $user->toJson()]);
+        $userAddress = $this->userAddressService->getUserAddress($id);
+        return Response::json(['msg'=>'Adding Successfully','data'=> $userAddress->toJson()]);
     }
 
     /**
@@ -84,9 +78,9 @@ class UserController extends AbstractController {
     public function update(Request $request, $id)
     {
         $data  = $request->all();
-        $user = $this->userService->updateUser($data, $id);
+        $userAddress = $this->userAddressService->updateUserAddress($data, $id);
 
-        return $user;
+        return $userAddress;
     }
 
     /**
@@ -98,7 +92,7 @@ class UserController extends AbstractController {
      */
     public function destroy(Request $request, $id)
     {
-        $user = $this->userService->deleteUser($id);
+        $userAddress = $this->userAddressService->deleteUserAddress($id);
 
         if($request->ajax())
         {

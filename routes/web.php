@@ -25,6 +25,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::GET('/', 'AdminController@dashboard');
 
         //users
+        Route::GET('/user-orders/{id}', 'UserController@getUserOrders');
         Route::Resource('/users', 'UserController');
 
         //drivers
@@ -68,6 +69,10 @@ Route::group(['middleware' => ['web']], function () {
         //countries
         Route::Resource('/countries', 'CountryController');
 
+        //orders
+        Route::GET('/order-details/{id}', 'OrderController@getOrderDetails');
+        Route::Resource('/orders', 'OrderController');
+
         //settings
         Route::Resource('/settings', 'SettingController');
 
@@ -79,6 +84,10 @@ Route::group(['middleware' => ['web']], function () {
 
         //promocodes
         Route::Resource('/promocodes', 'PromocodeController');
+
+        //user addresses
+        Route::Get('/user-addresses/{id}', 'UserAddressController@index');
+        Route::Resource('/user-addresses', 'UserAddressController');
     });
 
     Route::get('/lang/{lang}' , function($lang){

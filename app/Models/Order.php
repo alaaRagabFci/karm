@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Order extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['user_id', 'status', 'casher_id', 'driver_id', 'amount', 'receving_type_id'];
+    protected $fillable = ['the_user_id', 'status', 'casher_id', 'driver_id', 'amount', 'receving_type_id'];
     public $timestamps  = false;
 
     public function getDriver()
@@ -23,7 +23,12 @@ class Order extends Model
 
     public function getUser()
     {
-        return $this->belongsTo('App\Models\TheUser','user_id','id');
+        return $this->belongsTo('App\Models\TheUser','the_user_id','id');
+    }
+
+    public function getReceivingType()
+    {
+        return $this->belongsTo('App\Models\ReceivingType','receving_type_id','id');
     }
 
     public function getPromos()

@@ -4,7 +4,7 @@ namespace App\Constants;
 /**
  * @package User
  * @author Alaa <alaaragab34@gmail.com>
- * UserRole
+ * UserStatus
  */
 class UserStatus {
     /**
@@ -23,7 +23,7 @@ class UserStatus {
      *
      * @return array
      */
-    public static function getUserRole() {
+    public static function getUserStatus() {
         return array(
             self::ACTIVE => self::ACTIVE,
             self::BLOCKED => self::BLOCKED

@@ -23,7 +23,7 @@
                                 </div>
                                 <div class="progress-info">
                                     <div class="progress">
-                                        <span style="width: 50%;" class="progress-bar progress-bar-success green-sharp">
+                                        <span style="width: {{ $ordersUnderPreparing }}%;" class="progress-bar progress-bar-success green-sharp">
                                             <span class="sr-only">{{ $ordersUnderPreparing }}%</span>
                                         </span>
                                     </div>
@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="progress-info">
                                     <div class="progress">
-                                        <span style="width: 50%;" class="progress-bar progress-bar-success green-sharp">
+                                        <span style="width: {{ $ordersCancelled }}%;" class="progress-bar progress-bar-success green-sharp">
                                             <span class="sr-only">{{ $ordersCancelled }}%</span>
                                         </span>
                                     </div>
@@ -77,7 +77,7 @@
                                 </div>
                                  <div class="progress-info">
                                     <div class="progress">
-                                        <span style="width: 50%;" class="progress-bar progress-bar-success green-sharp">
+                                        <span style="width: {{ $users }}%;" class="progress-bar progress-bar-success green-sharp">
                                             <span class="sr-only">{{ $users }}%</span>
                                         </span>
                                     </div>
@@ -104,7 +104,7 @@
                                 </div>
                                 <div class="progress-info">
                                     <div class="progress">
-                                        <span style="width: 50%;" class="progress-bar progress-bar-success green-sharp">
+                                        <span style="width: {{ $promocodes }}%;" class="progress-bar progress-bar-success green-sharp">
                                             <span class="sr-only">{{ $promocodes }}%</span>
                                         </span>
                                     </div>

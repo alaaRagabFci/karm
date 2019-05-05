@@ -120,4 +120,12 @@
     </a>
 </li>
 
+<li class="nav-item {{Request::is('orders') ? 'start active open':'' }}">
+    <a href="{{ url('orders') }}" class="nav-link nav-toggle">
+        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+        <span class="title">الطلبات</span>
+        <span class="selected"></span>
+    </a>
+</li>
+
 
