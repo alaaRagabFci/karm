@@ -55,12 +55,15 @@ class PromocodeService
     public function createPromocode($parameters)
     {
         try {
+            if(Promocode::where('code', $parameters['code'])->first())
+                return \Response::json(['msg'=>'هذا الكود موجود بالفعل'],404);
+
             $promocode = new Promocode();
             $promocode->create($parameters);
-            return response(array('msg' => 'Entity created'), 200);
+            return \Response::json(['msg'=>'تم التسجيل بنجاح'],200);
         }
         catch(ModelNotFoundException $ex){
-            return response(array('msg' => 'Entity already exist'), 404);
+            return \Response::json(['msg'=>'حدث خطا'],404);
         }
     }
 
@@ -98,11 +101,15 @@ class PromocodeService
                 $parameters['expiration_date'] = null;
 
             $promocode = Promocode::findOrFail($promocodeId);
+
+            if(Promocode::where('code', $parameters['code'])->where('id', '!=', $promocodeId)->first())
+                return \Response::json(['msg'=>'هذا الكود موجود بالفعل'],404);
+
             $promocode->update($parameters);
-            return array('status' => 'true', 'message' => 'Promocodes updated');
+            return \Response::json(['msg'=>'تم التحديث بنجاح'],200);
         }
         catch(ModelNotFoundException $ex){
-            return array('status' => 'false', 'message' => 'Promocodes not found');
+            return \Response::json(['msg'=>'حدث خطا'],404);
         }
     }
 

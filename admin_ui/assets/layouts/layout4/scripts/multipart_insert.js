@@ -48,17 +48,16 @@ $(document).ready(function()
 
     function validateInputs(data)
     {
-        console.log(data);
         for (i = 0; i < data.length; i++) {
             if(data[i].value == "")
                 return false;
         }
     }
 
-    function error()
+    function error(error)
     {
         swal({
-            title: "حدث خطأ",
+            title: error['responseJSON']['msg'],
             type: "error",
             closeOnConfirm: false,
             confirmButtonText: "موافق!",
@@ -93,7 +92,6 @@ $(document).ready(function()
 
     function validateInputsUpdate(data)
     {
-        console.log(data);
         for (i = 0; i < data.length; i++) {
             if(data[i].name != "icon")
                 if(data[i].name != "image")
@@ -104,10 +102,10 @@ $(document).ready(function()
         }
     }
 
-    function error_update()
+    function error_update(error)
     {
         swal({
-            title: "خطأ في تحديث البيانات",
+            title:error['responseJSON']['msg'],
             type: "error",
             closeOnConfirm: false,
             confirmButtonText: "موافق!",

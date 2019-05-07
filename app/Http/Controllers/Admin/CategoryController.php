@@ -105,4 +105,11 @@ class CategoryController extends AbstractController {
         return redirect()->back();
     }
 
+    public function sortCategories(Request $request)
+    {
+        $data  = $request->all();
+        $category = $this->categoryService->sortCategories($data);
+
+        return $category;
+    }
 }

@@ -55,12 +55,15 @@ class RecevingTypeService
     public function createReceivingType($parameters)
     {
         try {
+            if(ReceivingType::where('type', $parameters['type'])->first())
+                return \Response::json(['msg'=>'هذه الاليه موجوده بالفعل'],404);
+
             $receivingType = new ReceivingType();
             $receivingType->create($parameters);
-            return response(array('msg' => 'Entity created'), 200);
+            return \Response::json(['msg'=>'تم التسجيل بنجاح'],200);
         }
         catch(ModelNotFoundException $ex){
-            return response(array('msg' => 'Entity already exist'), 404);
+            return \Response::json(['msg'=>'حدث خطا'],404);
         }
     }
 
@@ -91,12 +94,15 @@ class RecevingTypeService
     public function updateReceivingType($parameters, $receivingTypeId)
     {
         try {
+            if(ReceivingType::where('type', $parameters['type'])->where('id', '!=', $receivingTypeId)->first())
+                return \Response::json(['msg'=>'هذه الاليه موجوده بالفعل'],404);
+
             $receivingType = ReceivingType::findOrFail($receivingTypeId);
             $receivingType->update($parameters);
-            return array('status' => 'true', 'message' => 'ReceivingTypes updated');
+            return \Response::json(['msg'=>'تم التحديث بنجاح'],200);
         }
         catch(ModelNotFoundException $ex){
-            return array('status' => 'false', 'message' => 'ReceivingTypes not found');
+            return \Response::json(['msg'=>'حدث خطا'],404);
         }
     }
 

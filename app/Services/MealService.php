@@ -145,6 +145,9 @@ class MealService
     public function createMeal($parameters)
     {
         try {
+            if(Meal::where('name', $parameters['name'])->first())
+                return \Response::json(['msg'=>'هذه الوجبة موجود بالفعل'],404);
+
             $meal = new Meal();
             $meal_id = $meal->create($parameters)->id;
             if($meal){
@@ -163,10 +166,10 @@ class MealService
                     return response(array('msg' => 'Image required'), 404);
                 }
             }
-            return response(array('msg' => 'Entity created'), 200);
+            return \Response::json(['msg'=>'تم التسجيل بنجاح'],200);
         }
         catch(ModelNotFoundException $ex){
-            return response(array('msg' => 'Entity already exist'), 404);
+            return \Response::json(['msg'=>'حدث خطا'],404);
         }
     }
 
@@ -187,22 +190,25 @@ class MealService
                 }else{
                     return response(array('msg' => 'Image required'), 404);
                 }
-            return response(array('msg' => 'Entity created'), 200);
+            return \Response::json(['msg'=>'تم التسجيل بنجاح'],200);
         }
         catch(ModelNotFoundException $ex){
-            return response(array('msg' => 'Entity already exist'), 404);
+            return \Response::json(['msg'=>'حدث خطا'],404);
         }
     }
 
     public function createMealSize($parameters)
     {
         try {
+            if(MealSize::where('size', $parameters['size'])->where('meal_id', $parameters['meal_id'])->first())
+                return \Response::json(['msg'=>'هذا الحجم موجود بالفعل'],404);
+
             $mealSize = new MealSize();
             $mealSize->create($parameters);
-            return response(array('msg' => 'Entity created'), 200);
+            return \Response::json(['msg'=>'تم التسجيل بنجاح'],200);
         }
         catch(ModelNotFoundException $ex){
-            return response(array('msg' => 'Entity already exist'), 404);
+            return \Response::json(['msg'=>'حدث خطا'],404);
         }
     }
 
@@ -227,11 +233,14 @@ class MealService
                 $parameters['image']  = $image;
             }
 
+            if(Meal::where('name', $parameters['name'])->where('id', '!=', $mealId)->first())
+                return \Response::json(['msg'=>'هذه الوجبة موجود بالفعل'],404);
+
             $meal->update($parameters);
-            return response(array('msg' => 'Entity updated'), 200);
+            return \Response::json(['msg'=>'تم تحديث الوجبة بنجاح'],200);
         }
         catch(ModelNotFoundException $ex){
-            return response(array('msg' => 'Entity not found'), 404);
+            return \Response::json(['msg'=>'حدث خطا'],404);
         }
     }
 

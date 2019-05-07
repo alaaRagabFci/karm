@@ -52,12 +52,15 @@ class RegionService
     public function createRegion($parameters)
     {
         try {
+            if(Region::where('name', $parameters['name'])->first())
+                return \Response::json(['msg'=>'هذا الحي موجود بالفعل'],404);
+
             $region = new Region();
             $region->create($parameters);
-            return response(array('msg' => 'Entity created'), 200);
+            return \Response::json(['msg'=>'تم التسجيل بنجاح'],200);
         }
         catch(ModelNotFoundException $ex){
-            return response(array('msg' => 'Entity already exist'), 404);
+            return \Response::json(['msg'=>'حدث خطا'],404);
         }
     }
 
@@ -88,12 +91,15 @@ class RegionService
     public function updateRegion($parameters, $regionId)
     {
         try {
+            if(Region::where('name', $parameters['name'])->where('id', '!=', $regionId)->first())
+                return \Response::json(['msg'=>'هذا الحي موجود بالفعل'],404);
+
             $region = Region::findOrFail($regionId);
             $region->update($parameters);
-            return array('status' => 'true', 'message' => 'Regions updated');
+            return \Response::json(['msg'=>'تم تحديث الحي بنجاح'],200);
         }
         catch(ModelNotFoundException $ex){
-            return array('status' => 'false', 'message' => 'Regions not found');
+            return \Response::json(['msg'=>'حدث خطا'],404);
         }
     }
 

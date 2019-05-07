@@ -14,8 +14,8 @@
 
 <div class="form-group">
     <label for="exampleInputFile">النوع</label>
-    <select  class="form-control" name="type" id="type" onchange="selectType()">
-        <option>أختر النوع</option>
+    <select required  class="form-control" name="type" id="type" onchange="selectType()">
+        <option selected value="">أختر النوع</option>
         <option value="Expiration">تاريخ صلاحية</option>
         <option value="Number">مرات استخدام</option>
     </select>

@@ -158,13 +158,7 @@
         <!-- END CONTAINER -->
         <!-- BEGIN FOOTER -->
         <div class="page-footer">
-            <div class="page-footer-inner"> 2019 &copy; تم التصميم
-                <a target="_blank" href="https://www.linkedin.com/in/alaa-ragab-606a07b7/">Eng Alaa Ragab</a> &nbsp;|&nbsp;
-                <a href="{{ url('/') }}">كرم الريف!</a>
-            </div>
-            <div class="scroll-to-top">
-                <i class="icon-arrow-up"></i>
-            </div>
+            <div class="copyright"> ©2019, كرم الريف, جميع الحقوق محفوظه. </div>
         </div>
         <div class="modal fade" id="changePasswordModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="editEmployeeModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -194,7 +188,10 @@
         <!-- END FOOTER -->
         <div class="quick-nav-overlay"></div>
 <script src="{{ asset('/admin_ui/assets/global/plugins/jquery.min.js')}}" type="text/javascript"></script>
-<script src="{{ asset('/admin_ui/assets/global/plugins/bootstrap/js/bootstrap.min.js')}}" type="text/javascript"></script>
+        {{--<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>--}}
+        {{--<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>--}}
+        <script src="{{ asset('/admin_ui/assets/layouts/layout4/scripts/code-ui.js')}}" type="text/javascript"></script>
+        <script src="{{ asset('/admin_ui/assets/global/plugins/bootstrap/js/bootstrap.min.js')}}" type="text/javascript"></script>
  <script src="{{ asset('/admin_ui/assets/layouts/layout4/scripts/application.js')}}" type="text/javascript"></script>
  <script src="{{ asset('/admin_ui/assets/layouts/layout4/scripts/bootbox.js')}}" type="text/javascript"></script>
  <script src="{{ asset('/admin_ui/assets/layouts/layout4/scripts/forms.js')}}" type="text/javascript"></script>
@@ -220,7 +217,7 @@
 <script src="{{ asset('/admin_ui/assets/layouts/layout4/scripts/layout.min.js')}}" type="text/javascript"></script>
 <script src="{{ asset('/admin_ui/assets/layouts/layout4/scripts/demo.min.js')}}" type="text/javascript"></script>
 <script src="{{ asset('/admin_ui/assets/layouts/global/scripts/quick-nav.min.js')}}" type="text/javascript"></script>
-<script>
+        <script>
     $(document).ready(function()
     {
         $('body').on('click', '.image', function () {
@@ -228,7 +225,7 @@
                 message: '<img style="height:500px; width:100%" src="' + $(this).attr('src') + '"/>',
                 buttons: {
                     cancel: {
-                        label: "Close",
+                        label: "غلق",
                         className: 'text-right btn-primary'
                     }
                 }
@@ -320,6 +317,7 @@
 
     })
 </script>
+
 @yield('scripts')
     </body>
 

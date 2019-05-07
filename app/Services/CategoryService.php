@@ -38,6 +38,7 @@ class CategoryService
                 else
                     return '<span class="label label-sm label-warning">غير نشط</span>';
             })
+            ->setRowId('id')
             ->addColumn('actions', function ($data)
             {
                 return view('partials.actionBtns')->with('controller','categories')
@@ -65,6 +66,15 @@ class CategoryService
         }
     }
 
+    public function sortCategories($ids)
+    {
+        for($i = 0; $i < count($ids); $i++){
+            $category = Category::findOrFail($ids[$i]);
+            $category->sort = $i+1;
+            $category->save();
+        }
+    }
+
     /**
      * Create description.
      * @param $type
@@ -85,12 +95,17 @@ class CategoryService
             }else{
                 return response(array('msg' => 'Image required'), 404);
             }
+
+            if(Category::where('name', $parameters['name'])->first())
+                return \Response::json(['msg'=>'هذا القسم موجود بالفعل'],404);
+            $max = Category::max('sort');
+            $parameters['sort'] = $max + 1;
             $category = new Category();
             $category->create($parameters);
-            return response(array('msg' => 'Entity created'), 200);
+            return \Response::json(['msg'=>'تم التسجيل بنجاح'],200);
         }
         catch(ModelNotFoundException $ex){
-            return response(array('msg' => 'Entity already exist'), 404);
+            return \Response::json(['msg'=>'حدث خطا'],404);
         }
     }
 
@@ -102,10 +117,10 @@ class CategoryService
      * @param $image
      * @author Alaa <alaaragab34@gmail.com>
      */
-    public function updateCategory($CategoryId, $parameters, $images, $image)
+    public function updateCategory($categoryId, $parameters, $images, $image)
     {
         try {
-            $Category = Category::findOrFail($CategoryId);
+            $Category = Category::findOrFail($categoryId);
             if(isset($images['image']) && $images['image'] != ""){
                 $data = $this->utilityService->uploadImage($images['image']);
                 if(!$data['status'])
@@ -115,11 +130,14 @@ class CategoryService
                 $parameters['image']  = $image;
             }
 
+            if(Category::where('name', $parameters['name'])->where('id', '!=', $categoryId)->first())
+                return \Response::json(['msg'=>'هذا القسم موجود بالفعل'],404);
+
             $Category->update($parameters);
-            return response(array('msg' => 'Entity updated'), 200);
+            return \Response::json(['msg'=>'تم التحديث بنجاح'],200);
         }
         catch(ModelNotFoundException $ex){
-            return response(array('msg' => 'Entity not found'), 404);
+            return \Response::json(['msg'=>'حدث خطا'],404);
         }
     }
 

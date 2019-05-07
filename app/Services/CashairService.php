@@ -90,6 +90,13 @@ class CashairService
             $parameters['token'] = $token["token"];
             $password = $this->hashPassword($parameters['password']);
             $parameters['password'] = $password['encrypted'];
+
+            if(Worker::where('username', $parameters['username'])->where('type', UserRole::CASHAIR)->first())
+                return \Response::json(['msg'=>'أسم الموصل موجود بالفعل'],404);
+
+            if(Worker::where('phone', $parameters['phone'])->where('type', UserRole::CASHAIR)->first())
+                return \Response::json(['msg'=>'رقم الجوال موجود بالفعل'],404);
+
             $Cashair = new Worker();
             $Cashair->create($parameters);
             return response(array('msg' => 'Entity created'), 200);
@@ -136,10 +143,10 @@ class CashairService
      * @param $image
      * @author Alaa <alaaragab34@gmail.com>
      */
-    public function updateCashair($CashairId, $parameters, $images, $image)
+    public function updateCashair($cashairId, $parameters, $images, $image)
     {
         try {
-            $Cashair = Worker::findOrFail($CashairId);
+            $Cashair = Worker::findOrFail($cashairId);
             if(isset($images['image']) && $images['image'] != ""){
                 $data = $this->utilityService->uploadImage($images['image']);
                 if(!$data['status'])
@@ -149,11 +156,17 @@ class CashairService
                 $parameters['image']  = $image;
             }
 
+            if(Worker::where('username', $parameters['username'])->where('type', UserRole::CASHAIR)->where('id', '!=', $cashairId)->first())
+                return \Response::json(['msg'=>'أسم المستخدم موجود بالفعل'],404);
+
+            if(Worker::where('phone', $parameters['phone'])->where('type', UserRole::CASHAIR)->where('id', '!=', $cashairId)->first())
+                return \Response::json(['msg'=>'رقم الجوال موجود بالفعل'],404);
+
             $Cashair->update($parameters);
-            return response(array('msg' => 'Entity updated'), 200);
+            return \Response::json(['msg'=>'تم تحديث الكاشير بنجاح'],200);
         }
         catch(ModelNotFoundException $ex){
-            return response(array('msg' => 'Entity not found'), 404);
+            return \Response::json(['msg'=>'حدث خطا'],404);
         }
     }
 

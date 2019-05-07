@@ -109,4 +109,12 @@ class SliderController extends AbstractController {
         return redirect()->back();
     }
 
+    public function sortSliders(Request $request)
+    {
+        $data  = $request->all();
+        $slider = $this->sliderService->sortSliders($data);
+
+        return $slider;
+    }
+
 }

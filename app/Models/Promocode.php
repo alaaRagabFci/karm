@@ -3,11 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Promocode extends Model
 {
-    use SoftDeletes;
     protected $fillable = ['value', 'code', 'type', 'expiration_date', 'trips_limit', 'description', 'is_general', 'is_active'];
     public $timestamps  = false;
 

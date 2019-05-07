@@ -1,8 +1,14 @@
 @extends('admin_layouts.inc')
 @section('title','سلايدر العروض')
 @section('breadcrumb','سلايدر العروض')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 @section('styles')
   <link href="{{ asset('/admin_ui/assets/layouts/layout4/css/image.css')}}" rel="stylesheet" type="text/css" />
+  <style>
+    #sliders tr {
+      cursor: move;
+    }
+    </style>
 @endsection
 @section('content')
 <!-- Main content -->
@@ -30,23 +36,23 @@
             </div>
           </div>
         </div>
-              <table class="table table-striped table-bordered table-hover table-header-fixed" id="meals">
+              <table class="table table-striped table-bordered table-hover table-header-fixed" id="sliders">
                 <thead>
                   <th class="col-md-1">رقم العرض</th>
+                  <th class="col-md-1">الترتيب</th>
                   <th class="col-md-1">أسم الوجبه</th>
                   <th class="col-md-1">العرض</th>
                   <th class="col-md-1">الحاله</th>
-                  <th class="col-md-1">الترتيب</th>
                   <th class="col-md-1">خيارات</th>
                 </thead>
-                <tbody>
+                <tbody class="row_position">
                   @foreach ($tableData->getData()->data as $row)
                   <tr>
                     <td>{{  $row->id }}</td>
+                    <td>{{  $row->sort }}</td>
                     <td>{{  $row->meal }}</td>
                     <td>{{  $row->image }}</td>
                     <td>{{  $row->is_active }}</td>
-                    <td>{{  $row->sort }}</td>
                     <td>{!! $row->actions !!}</td>
                   </tr>
                   @endforeach
@@ -67,13 +73,47 @@
       @endsection
 
       @section('scripts')
+        <script type="text/javascript">
+
+          $( ".row_position" ).sortable({
+            delay: 50,
+            stop: function() {
+              var selectedData = new Array();
+              $('.row_position tr').each(function() {
+                selectedData.push($(this).attr("id"));
+              });
+              updateOrder(selectedData);
+
+            }
+
+          });
+
+
+
+          function updateOrder(data) {
+            $.ajax({
+              url: "{{ url('sliders/sort') }}",
+              type: "POST",
+              headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              },
+              data: Object.assign({}, data),
+              success: function(res){
+                oTable.draw();
+              },
+              error: function(){}
+            });
+          }
+
+        </script>
+
         <script src="{{ asset('/admin_ui/assets/layouts/layout4/scripts/multipart_insert.js')}}" type="text/javascript"></script>
         <script src="{{ asset('/admin_ui/assets/layouts/layout4/scripts/upload.js')}}" type="text/javascript"></script>
         <script src="{{ asset('/admin_ui/assets/layouts/layout4/scripts/app.js') }}"></script>
       <script type="text/javascript">
        $(document).ready(function() {
 
-        oTable = $('#meals').DataTable({
+        oTable = $('#sliders').DataTable({
           "processing": true,
           "serverSide": true,
           "responsive": true,
@@ -87,15 +127,14 @@
           "ajax": {{ $tableData->getData()->recordsFiltered }},
           "columns": [
           {data: 'id', name: 'id'},
+          {data: 'sort', name: 'sort'},
           {data: 'meal', name: 'meal'},
           {data: 'image', name: 'image'},
           {data: 'is_active', name: 'is_active'},
-          {data: 'sort', name: 'sort'},
           {data: 'actions', name: 'actions', orderable: false, searchable: false}
           ],
-          order: [ [0, 'desc'] ]
+          order: [ [1, 'asc'] ]
         });
       });
     </script>
-      <script src="{{ asset('/admin-ui/js/for_pages/table.js') }}"></script>
     @endsection

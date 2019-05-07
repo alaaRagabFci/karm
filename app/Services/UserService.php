@@ -76,12 +76,19 @@ class UserService
         try {
             $token = $this->generateUserToken($parameters);
             $parameters['token'] = $token["token"];
+
+            if(TheUser::where('username', $parameters['username'])->first())
+                return \Response::json(['msg'=>'أسم المستخدم موجود بالفعل'],404);
+
+            if(TheUser::where('phone', $parameters['phone'])->first())
+                return \Response::json(['msg'=>'رقم الجوال موجود بالفعل'],404);
+
             $user = new TheUser();
             $user->create($parameters);
-            return response(array('msg' => 'Entity created'), 200);
+            return \Response::json(['msg'=>'تم التسجيل بنجاح'],200);
         }
         catch(ModelNotFoundException $ex){
-            return response(array('msg' => 'Entity already exist'), 404);
+            return \Response::json(['msg'=>'حدث خطا'],404);
         }
     }
 
@@ -137,11 +144,18 @@ class UserService
     {
         try {
             $user = TheUser::findOrFail($userId);
+
+            if(TheUser::where('username', $parameters['username'])->where('id', '!=', $userId)->first())
+                return \Response::json(['msg'=>'أسم المستخدم موجود بالفعل'],404);
+
+            if(TheUser::where('phone', $parameters['phone'])->where('id', '!=', $userId)->first())
+                return \Response::json(['msg'=>'رقم الجوال موجود بالفعل'],404);
+
             $user->update($parameters);
-            return array('status' => 'true', 'message' => 'User updated');
+            return \Response::json(['msg'=>'تم التحديث بنجاح'],200);
         }
         catch(ModelNotFoundException $ex){
-            return array('status' => 'false', 'message' => 'User not found');
+            return \Response::json(['msg'=>'حدث خطا'],404);
         }
     }
 

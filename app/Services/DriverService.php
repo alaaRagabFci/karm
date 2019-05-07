@@ -90,12 +90,19 @@ class DriverService
             $parameters['token'] = $token["token"];
             $password = $this->hashPassword($parameters['password']);
             $parameters['password'] = $password['encrypted'];
+
+            if(Worker::where('username', $parameters['username'])->where('type', UserRole::DRIVER)->first())
+                return \Response::json(['msg'=>'أسم الموصل موجود بالفعل'],404);
+
+            if(Worker::where('phone', $parameters['phone'])->where('type', UserRole::DRIVER)->first())
+                return \Response::json(['msg'=>'رقم الجوال موجود بالفعل'],404);
+
             $driver = new Worker();
             $driver->create($parameters);
-            return response(array('msg' => 'Entity created'), 200);
+            return \Response::json(['msg'=>'تم التسجيل بنجاح'],200);
         }
         catch(ModelNotFoundException $ex){
-            return response(array('msg' => 'Entity already exist'), 404);
+            return \Response::json(['msg'=>'حدث خطا'],404);
         }
     }
 
@@ -148,11 +155,17 @@ class DriverService
                 $parameters['image']  = $image;
             }
 
+            if(Worker::where('username', $parameters['username'])->where('type', UserRole::DRIVER)->where('id', '!=', $driverId)->first())
+                return \Response::json(['msg'=>'أسم المستخدم موجود بالفعل'],404);
+
+            if(Worker::where('phone', $parameters['phone'])->where('type', UserRole::DRIVER)->where('id', '!=', $driverId)->first())
+                return \Response::json(['msg'=>'رقم الجوال موجود بالفعل'],404);
+
             $driver->update($parameters);
-            return response(array('msg' => 'Entity updated'), 200);
+            return \Response::json(['msg'=>'تم تحديث الموصل بنجاح'],200);
         }
         catch(ModelNotFoundException $ex){
-            return response(array('msg' => 'Entity not found'), 404);
+            return \Response::json(['msg'=>'حدث خطا'],404);
         }
     }
 

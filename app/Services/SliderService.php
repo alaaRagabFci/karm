@@ -22,6 +22,15 @@ class SliderService
         return Slider::get();
     }
 
+    public function sortSliders($ids)
+    {
+        for($i = 0; $i < count($ids); $i++){
+            $slider = Slider::findOrFail($ids[$i]);
+            $slider->sort = $i+1;
+            $slider->save();
+        }
+    }
+
     /**
      * Datatebles
      * @param $Sliders
@@ -41,6 +50,7 @@ class SliderService
                 else
                     return '<span class="label label-sm label-warning"> غير نشط </span>';
             })
+            ->setRowId('id')
             ->addColumn('actions', function ($data)
             {
                 return view('partials.actionBtns')->with('controller','sliders')
@@ -88,6 +98,8 @@ class SliderService
             }else{
                 return response(array('msg' => 'Image required'), 404);
             }
+            $max = Slider::max('sort');
+            $parameters['sort'] = $max + 1;
             $slider = new Slider();
             $slider->create($parameters);
             return response(array('msg' => 'Entity created'), 200);

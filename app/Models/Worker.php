@@ -3,11 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Worker extends Model
 {
-    use SoftDeletes;
     protected $fillable = ['username', 'display_name', 'email', 'phone','image', 'type', 'password', 'is_blocked', 'token'];
     public $timestamps  = false;
 

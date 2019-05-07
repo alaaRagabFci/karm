@@ -52,12 +52,15 @@ class AdditionService
     public function createAddition($parameters)
     {
         try {
+            if(Addition::where('name', $parameters['name'])->where('meal_id', $parameters['meal_id'])->first())
+                return \Response::json(['msg'=>'هذه الأضافه موجوده بالفعل'],404);
+
             $addition = new Addition();
             $addition->create($parameters);
-            return response(array('msg' => 'Entity created'), 200);
+            return \Response::json(['msg'=>'تم التسجيل بنجاح'],200);
         }
         catch(ModelNotFoundException $ex){
-            return response(array('msg' => 'Entity already exist'), 404);
+            return \Response::json(['msg'=>'حدث خطا'],404);
         }
     }
 
@@ -88,12 +91,15 @@ class AdditionService
     public function updateAddition($parameters, $additionId)
     {
         try {
+            if(Addition::where('name', $parameters['name'])->where('meal_id', $parameters['meal_id'])->where('id', '!=', $additionId)->first())
+                return \Response::json(['msg'=>'هذه الأضافه موجوده بالفعل'],404);
+
             $addition = Addition::findOrFail($additionId);
             $addition->update($parameters);
-            return array('status' => 'true', 'message' => 'Addition updated');
+            return \Response::json(['msg'=>'تم التحديث بنجاح'],200);
         }
         catch(ModelNotFoundException $ex){
-            return array('status' => 'false', 'message' => 'Addition not found');
+            return \Response::json(['msg'=>'حدث خطا'],404);
         }
     }
 

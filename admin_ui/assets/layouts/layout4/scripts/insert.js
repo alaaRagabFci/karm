@@ -32,10 +32,9 @@ $(document).ready(function() {
               });
               oTable.draw();
             },
-            error: function(){
-              // $('#addModal').modal('hide');
+            error: function(error){
               swal({
-                title: "حدث خطأ",
+                title: error['responseJSON']['msg'],
                 type: "error",
                 closeOnConfirm: false,
                 confirmButtonText: "موافق !",
@@ -77,10 +76,9 @@ $(document).ready(function() {
             });
              oTable.draw();
            },
-           error: function(){
-             // $('#editModal').modal('hide');
+           error: function(error){
              swal({
-              title: "خطأ في تحديث البيانات",
+              title: error['responseJSON']['msg'],
               type: "error",
               closeOnConfirm: false,
               confirmButtonText: "موافق !",

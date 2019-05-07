@@ -43,6 +43,7 @@ Route::group(['middleware' => ['web']], function () {
         //cashairs
         Route::Post('/categories/store', 'CategoryController@store');
         Route::Post('/categories/update', 'CategoryController@update');
+        Route::Post('/categories/sort', 'CategoryController@sortCategories');
         Route::Resource('/categories', 'CategoryController');
 
         //meal images
@@ -63,6 +64,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::Resource('/additions', 'AdditionController');
         //sliders
         Route::Post('/sliders/store', 'SliderController@store');
+        Route::Post('/sliders/sort', 'SliderController@sortSliders');
         Route::Post('/sliders/update', 'SliderController@update');
         Route::Resource('/sliders', 'SliderController');
 
