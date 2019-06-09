@@ -1,14 +1,13 @@
 @extends('admin_layouts.inc')
-@section('title','صور الواجبات')
-@section('breadcrumb','صور الواجبات')
+@section('title','الأضافات')
+@section('breadcrumb','الأضافات')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 @section('styles')
-  <link href="{{ asset('/admin_ui/assets/layouts/layout4/css/image.css')}}" rel="stylesheet" type="text/css" />
-  <style>
-    #mealImages tr {
-      cursor: move;
-    }
-  </style>
+<style>
+  #mealAdditions tr {
+    cursor: move;
+  }
+</style>
 @endsection
 @section('content')
   <!-- Main content -->
@@ -19,7 +18,7 @@
         <div class="portlet-title">
           <div class="caption font-dark">
             <i class="icon-settings font-dark"></i>
-            <span class="caption-subject bold uppercase">بيانات صور الواجبات</span>
+            <span class="caption-subject bold uppercase">بيانات الأضافات</span>
           </div>
           <div class="tools"> </div>
         </div>
@@ -29,24 +28,28 @@
               <div class="col-md-6">
                 <div class="btn-group">
                   <button  data-toggle="modal" data-target="#addModal" id="sample_editable_1_new" class="btn btn-primary">
-                    أضافة صور
+                    أضافة جديد
                     <i class="fa fa-plus"></i>
                   </button>
                 </div>
               </div>
             </div>
           </div>
-          <table class="table table-striped table-bordered table-hover table-header-fixed" id="mealImages">
+          <table class="table table-striped table-bordered table-hover table-header-fixed" id="mealAdditions">
             <thead>
-            <th class="col-md-1">الترتيب</th>
-            <th class="col-md-1">الصور</th>
+            <th class="col-md-1"> الترتيب</th>
+            <th class="col-md-1"> الوجبة</th>
+            <th class="col-md-1">الأضافه</th>
+            <th class="col-md-1">السعر</th>
             <th class="col-md-1">خيارات</th>
             </thead>
             <tbody class="row_position">
             @foreach ($tableData->getData()->data as $row)
               <tr>
                 <td>{{ $row->sort }}</td>
-                <td>{!! $row->image !!}</td>
+                <td>{{ $row->meal }}</td>
+                <td>{{ $row->addition }}</td>
+                <td>{{ $row->price }}</td>
                 <td>{!! $row->actions !!}</td>
               </tr>
             @endforeach
@@ -62,7 +65,8 @@
   </div>
   </div>
 
-      @include('admin_layouts.Add_imgModal')
+      @include('admin_layouts.Add_Modal')
+      @include('admin_layouts.Edit_Modal')
 
 @endsection
 
@@ -84,7 +88,7 @@
 
     function updateOrder(data) {
       $.ajax({
-        url: "{{ url('meal-images/sort') }}",
+        url: "{{ url('meal-additions/sort') }}",
         type: "POST",
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -98,12 +102,10 @@
     }
 
   </script>
-  <script src="{{ asset('/admin_ui/assets/layouts/layout4/scripts/multipart_insert.js')}}" type="text/javascript"></script>
-  <script src="{{ asset('/admin_ui/assets/layouts/layout4/scripts/upload.js')}}" type="text/javascript"></script>
-  <script src="{{ asset('/admin_ui/assets/layouts/layout4/scripts/app.js') }}"></script>
+  <script src="{{ asset('/admin_ui/assets/layouts/layout4/scripts/insert.js')}}" type="text/javascript"></script>
   <script type="text/javascript">
     $(document).ready(function() {
-      oTable = $('#mealImages').DataTable({
+      oTable = $('#mealAdditions').DataTable({
         "processing": true,
         "serverSide": true,
         "responsive": true,
@@ -117,10 +119,11 @@
         "ajax": {{ $tableData->getData()->recordsFiltered }},
         "columns": [
           {data: 'sort', name: 'sort'},
-          {data: 'image', name: 'image'},
+          {data: 'meal', name: 'meal'},
+          {data: 'addition', name: 'addition'},
+          {data: 'price', name: 'price'},
           {data: 'actions', name: 'actions', orderable: false, searchable: false}
-        ],
-        order: [ [0, 'asc'] ]
+        ]
       });
     });
   </script>

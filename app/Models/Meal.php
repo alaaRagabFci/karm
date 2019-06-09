@@ -24,6 +24,11 @@ class Meal extends Model
         return $this->hasMany('App\Models\MealSize');
     }
 
+    public function getAdditions()
+    {
+        return $this->hasMany('App\Models\MealAddition');
+    }
+
     public function getPromos()
     {
         return $this->hasMany('App\Models\Promocode');

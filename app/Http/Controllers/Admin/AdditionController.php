@@ -22,7 +22,6 @@ class AdditionController extends AbstractController {
      */
     public function index(Request $request)
     {
-        $meals  = $this->mealService->listMeals();
         $additions  = $this->additionService->listAdditions();
         $tableData = $this->additionService->datatables($additions);
 
@@ -30,7 +29,6 @@ class AdditionController extends AbstractController {
             return $tableData;
 
         return view('additions.index')
-              ->with('meals', $meals)
               ->with('modal', 'additions')
               ->with('modal_', 'الأضافات')
               ->with('tableData', $tableData);

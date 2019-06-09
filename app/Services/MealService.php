@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+use App\Models\MealAddition;
 use App\Models\MealImage;
 use App\Models\MealSize;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -54,12 +55,18 @@ class MealService
                 else
                     return '<a href="meal-sizes/'.$meal->id.'"> <span class="label label-sm label-success"> أضافة حجم </span></a>';
             })
+            ->addColumn('additions', function (Meal $meal){
+                if(count($meal->getAdditions) > 0)
+                    return '<a href="meal-additions/'.$meal->id.'"> <span class="label label-sm label-primary"> عرض الأضافات </span></a>';
+                else
+                    return '<a href="meal-additions/'.$meal->id.'"> <span class="label label-sm label-success"> أضافة </span></a>';
+            })
             ->addColumn('actions', function ($data)
             {
                 return view('partials.actionBtns')->with('controller','meals')
                     ->with('id', $data->id)
                     ->render();
-            })->rawColumns(['actions', 'is_active', 'images', 'sizes'])->make(true);
+            })->rawColumns(['actions', 'is_active', 'images', 'sizes', 'additions'])->make(true);
 
         return $tableData ;
     }
@@ -68,7 +75,7 @@ class MealService
     {
         $tableData = Datatables::of($images)
             ->editColumn('image', '<a href="javascript:;"><img src="{{ config("app.baseUrl").$image }}" class="image" width="50px" height="50px"></a>')
-
+            ->setRowId('id')
             ->addColumn('actions', function ($data)
             {
                 return view('meal-images.actionBtns')->with('controller','meal-images')
@@ -88,6 +95,26 @@ class MealService
                     ->with('id', $data->id)
                     ->render();
             })->rawColumns(['actions'])->make(true);
+
+        return $tableData ;
+    }
+
+    public function datatablesAdditions($additions)
+    {
+        $tableData = Datatables::of($additions)
+            ->addColumn('meal', function (MealAddition $addition) {
+                return $addition->getMeal->name;
+            })
+            ->addColumn('addition', function (MealAddition $addition) {
+                return $addition->getAddition->name;
+            })
+            ->setRowId('id')
+            ->addColumn('actions', function ($data)
+            {
+                return view('partials.actionBtns')->with('controller','meal-additions')
+                    ->with('id', $data->id)
+                    ->render();
+            })->rawColumns(['actions', 'meal', 'addition'])->make(true);
 
         return $tableData ;
     }
@@ -116,6 +143,28 @@ class MealService
         try {
             $sizes = MealSize::where('meal_id', $mealId)->get();
             return $sizes;
+        }
+        catch(ModelNotFoundException $ex){
+            return array('status' => 'false', 'message' => 'Meal not found');
+        }
+    }
+
+    public function getMealAddition($mealAdditionId)
+    {
+        try {
+            $mealAddition = MealAddition::findOrFail($mealAdditionId);
+            return $mealAddition;
+        }
+        catch(ModelNotFoundException $ex){
+            return array('status' => 'false', 'message' => 'Meal addition not found');
+        }
+    }
+
+    public function getMealAdditions($mealId)
+    {
+        try {
+            $additions = MealAddition::where('meal_id', $mealId)->get();
+            return $additions;
         }
         catch(ModelNotFoundException $ex){
             return array('status' => 'false', 'message' => 'Meal not found');
@@ -182,9 +231,11 @@ class MealService
                     if(!$data['status'])
                         return response(array('msg' => $data['errors']), 404);
 
+                    $max = MealImage::max('sort');
                     $mealImage = new MealImage();
                     $mealImage->image = $data['image'];
                     $mealImage->meal_id = $parameters['meal_id'];
+                    $mealImage->sort = $max + 1;;
                     $mealImage->save();
                     }
                 }else{
@@ -205,6 +256,24 @@ class MealService
 
             $mealSize = new MealSize();
             $mealSize->create($parameters);
+            return \Response::json(['msg'=>'تم التسجيل بنجاح'],200);
+        }
+        catch(ModelNotFoundException $ex){
+            return \Response::json(['msg'=>'حدث خطا'],404);
+        }
+    }
+
+    public function createMealAddition($parameters)
+    {
+        try {
+            if(MealAddition::where('addition_id', $parameters['addition_id'])->where('meal_id', $parameters['meal_id'])->first())
+                return \Response::json(['msg'=>'هذه الأضافه موجوده بالفعل'],404);
+
+            $max = MealAddition::max('sort');
+            $parameters['sort'] = $max + 1;
+
+            $mealAddition = new MealAddition();
+            $mealAddition->create($parameters);
             return \Response::json(['msg'=>'تم التسجيل بنجاح'],200);
         }
         catch(ModelNotFoundException $ex){
@@ -244,6 +313,22 @@ class MealService
         }
     }
 
+    public function updateMealAddition($parameters, $additionId)
+    {
+        try {
+            $mealAddition = MealAddition::findOrFail($additionId);
+
+            if(MealAddition::where('addition_id', $parameters['addition_id'])->where('meal_id', $parameters['meal_id'])->where('id', '!=', $additionId)->first())
+                return \Response::json(['msg'=>'هذه الأضافه موجوده بالفعل'],404);
+
+            $mealAddition->update($parameters);
+            return \Response::json(['msg'=>'تم تحديث الوجبة بنجاح'],200);
+        }
+        catch(ModelNotFoundException $ex){
+            return \Response::json(['msg'=>'حدث خطا'],404);
+        }
+    }
+
     /**
      * Delete Meal.
      * @param $MealId
@@ -255,6 +340,11 @@ class MealService
         return Meal::find($meal)->delete();
     }
 
+    public function deleteMealAddition($mealAddition)
+    {
+        return MealAddition::find($mealAddition)->delete();
+    }
+
     public function deleteImage($mealImage)
     {
         return MealImage::find($mealImage)->delete();
@@ -263,5 +353,23 @@ class MealService
     public function deleteSize($mealSize)
     {
         return MealSize::find($mealSize)->delete();
+    }
+
+    public function sortMealImages($ids)
+    {
+        for($i = 0; $i < count($ids); $i++){
+            $image = MealImage::findOrFail($ids[$i]);
+            $image->sort = $i+1;
+            $image->save();
+        }
+    }
+
+    public function sortMealAdditions($ids)
+    {
+        for($i = 0; $i < count($ids); $i++){
+            $mealAddition = MealAddition::findOrFail($ids[$i]);
+            $mealAddition->sort = $i+1;
+            $mealAddition->save();
+        }
     }
 }

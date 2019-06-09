@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Util\AbstractController;
+use App\Services\CategoryService;
 use App\Services\CountryService;
 use Illuminate\Http\Request;
 use App\Services\PromocodeService;
@@ -8,11 +9,12 @@ use Response;
 
 class PromocodeController extends AbstractController {
 
-    public $promocodeService;
-    public function __construct(PromocodeService $promocodeService)
+    public $promocodeService, $categoryService;
+    public function __construct(PromocodeService $promocodeService, CategoryService $categoryService)
     {
         $this->middleware('auth');
         $this->promocodeService = $promocodeService;
+        $this->categoryService = $categoryService;
     }
 
     /**
@@ -21,6 +23,7 @@ class PromocodeController extends AbstractController {
      */
     public function index(Request $request)
     {
+        $categories  = $this->categoryService->listCategories();
         $promocodes  = $this->promocodeService->listPromocodes();
         $tableData = $this->promocodeService->datatables($promocodes);
 
@@ -28,6 +31,7 @@ class PromocodeController extends AbstractController {
             return $tableData;
 
         return view('promocodes.index')
+              ->with('categories', $categories)
               ->with('modal', 'promocodes')
               ->with('modal_', 'كوبونات الخصم')
               ->with('tableData', $tableData);

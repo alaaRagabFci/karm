@@ -17,7 +17,7 @@
 <li class="nav-item {{Request::is('countries', 'regions') ? 'start active open':'' }}">
     <a href="javascript:;" class="nav-link nav-toggle">
         <i class="fa fa-globe"></i>
-        <span class="title">الدول والحياء</span>
+        <span class="title">المدن والأحياء</span>
         <span class="selected"></span>
         <span class="arrow open"></span>
     </a>
@@ -25,7 +25,7 @@
         <li class="nav-item {{Request::is('countries') ? 'start active open':'' }}">
             <a href="{{ url('/countries') }}" class="nav-link ">
                 <i class="fa fa-globe"></i>
-                <span class="title"> الدول </span>
+                <span class="title"> المدن </span>
                 <span class="selected"></span>
             </a>
         </li>

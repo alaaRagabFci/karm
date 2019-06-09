@@ -27,6 +27,12 @@
                   <i class="fa fa-plus"></i>
                 </button>
               </div>
+              <div class="btn-group">
+                <button  data-toggle="modal" data-target="#sendNotification" id="sample_editable_1_new" class="btn btn-primary">
+                  ارسال أشعارات
+                  <i class="fas fa-share-square"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -93,11 +99,84 @@
   </div>
 </div>
 
+<div class="modal fade" id="sendNotification" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="addModalLabel"><i class="fa fa-plus-circle"></i> أرسال أشعارات</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form" method="POST" class="sendForm" action="{{ url('/send-notifications') }}" data-toggle="validator">
+          <div class="modal-body">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <div class="form-group">
+              <label for="exampleInputPassword1">الأشعار</label>
+              <textarea rows="2" cols="30" id="notification" name="notification" class="form-control" required></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" id="sendButton" class="btn btn-primary">ارسال</button>
+            <button type="button" class="btn btn-danger closeModal">غلق</button>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 
       @section('scripts')
         <script src="{{ asset('/admin_ui/assets/layouts/layout4/scripts/insert.js')}}" type="text/javascript"></script>
       <script type="text/javascript">
+        $("#sendNotification form").on('submit', function(e){
+          if (!e.isDefaultPrevented())
+          {
+            var self = $(this);
+            $('#sendButton').button('loading');
+            $.ajax({
+              url: self.closest('form').attr('action'),
+              type: "POST",
+              data: self.serialize(),
+              beforeSend: function(){
+                  if ($('#notification').val() == ""){
+                    $('#sendButton').button('reset');
+                    return false;
+                  }
+              },
+              success: function(res){
+                $('#sendButton').button('reset');
+                $('.sendForm')[0].reset();
+                $('#sendNotification').modal('hide');
+                swal({
+                  title: "تم أرسال الأشعار بنجاح",
+                  type: "success",
+                  closeOnConfirm: false,
+                  confirmButtonText: "موافق !",
+                  confirmButtonColor: "#ec6c62",
+                  allowOutsideClick: true
+                });
+                oTable.draw();
+              },
+              error: function(error){
+                $('#sendButton').button('reset');
+                swal({
+                  title: error['responseJSON']['msg'],
+                  type: "error",
+                  closeOnConfirm: false,
+                  confirmButtonText: "موافق !",
+                  confirmButtonColor: "#ff0000",
+                  allowOutsideClick: true
+                });
+              }
+            });
+            e.preventDefault();
+          }
+        });
+
+
        $(document).ready(function() {
          $(document.body).validator().on('click', '.user-orders', function() {
            var self = $(this);

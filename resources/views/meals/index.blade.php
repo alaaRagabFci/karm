@@ -40,6 +40,7 @@
                   <th class="col-md-1">الحاله</th>
                   <th class="col-md-1">الصور</th>
                   <th class="col-md-1">الأحجام</th>
+                  <th class="col-md-1">الأضافات</th>
                   <th class="col-md-1">خيارات</th>
                 </thead>
                 <tbody>
@@ -53,6 +54,7 @@
                     <td>{{  $row->is_active }}</td>
                     <td>{{  $row->images }}</td>
                     <td>{{  $row->sizes }}</td>
+                    <td>{{  $row->additions }}</td>
                     <td>{!! $row->actions !!}</td>
                   </tr>
                   @endforeach
@@ -192,6 +194,7 @@
           {data: 'is_active', name: 'is_active'},
           {data: 'images', name: 'images'},
           {data: 'sizes', name: 'sizes'},
+          {data: 'additions', name: 'additions'},
           {data: 'actions', name: 'actions', orderable: false, searchable: false}
           ]
         });

@@ -32,17 +32,13 @@
         </div>
               <table class="table table-striped table-bordered table-hover" id="descriptions">
                 <thead>
-                <th class="col-md-1">الوجبة</th>
                 <th class="col-md-1">الأضافة</th>
-                <th class="col-md-1">السعر</th>
                 <th class="col-md-1">خيارات</th>
                 </thead>
                 <tbody>
                   @foreach ($tableData->getData()->data as $row)
                   <tr>
-                    <td>{{  $row->meal }}</td>
                     <td>{{  $row->name }}</td>
-                    <td>{{  $row->price }}</td>
                     <td>{!! $row->actions !!}</td>
                   </tr>
                   @endforeach
@@ -76,9 +72,7 @@
           'autoWidth'   : false,
           "ajax": {{ $tableData->getData()->recordsFiltered }},
           "columns": [
-          {data: 'meal', name: 'meal'},
           {data: 'name', name: 'name'},
-          {data: 'price', name: 'price'},
           {data: 'actions', name: 'actions', orderable: false, searchable: false}
           ]
         })

@@ -48,12 +48,18 @@ Route::group(['middleware' => ['web']], function () {
 
         //meal images
         Route::Post('/meal-images/store', 'MealImageController@store');
+        Route::Post('/meal-images/sort', 'MealImageController@sortMealImages');
         Route::Get('/meal-images/{id}', 'MealImageController@getMealImages');
         Route::Resource('/meal-images', 'MealImageController');
 
         //meal sizes
         Route::Get('/meal-sizes/{id}', 'MealSizeController@getMealSizes');
         Route::Resource('/meal-sizes', 'MealSizeController');
+
+        //meal additions
+        Route::Post('/meal-additions/sort', 'MealAdditionController@sortMealAdditions');
+        Route::Get('/meal-additions/{id}', 'MealAdditionController@getMealAdditions');
+        Route::Resource('/meal-additions', 'MealAdditionController');
 
         //cashairs
         Route::Post('/meals/store', 'MealController@store');
@@ -90,6 +96,9 @@ Route::group(['middleware' => ['web']], function () {
         //user addresses
         Route::Get('/user-addresses/{id}', 'UserAddressController@index');
         Route::Resource('/user-addresses', 'UserAddressController');
+
+        //send notifications
+        Route::Post('/send-notifications', 'UserController@sendNotification');
     });
 
     Route::get('/lang/{lang}' , function($lang){

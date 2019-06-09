@@ -106,4 +106,12 @@ class UserController extends AbstractController {
         }
         return redirect()->back();
     }
+
+    public function sendNotification(Request $request)
+    {
+        $message  = $request->all();
+        $notification = $this->userService->sendNotification($message);
+
+        return $notification;
+    }
 }

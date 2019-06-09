@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Region extends Model
 {
-    protected $fillable = ['name', 'country_id'];
+    protected $fillable = ['name', 'country_id', 'is_transporting'];
     public $timestamps  = false;
 
     public function getCountry()

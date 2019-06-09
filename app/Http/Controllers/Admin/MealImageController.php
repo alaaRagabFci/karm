@@ -48,4 +48,12 @@ class MealImageController extends AbstractController {
         }
         return redirect()->back();
     }
+
+    public function sortMealImages(Request $request)
+    {
+        $data  = $request->all();
+        $image = $this->mealService->sortMealImages($data);
+
+        return $image;
+    }
 }

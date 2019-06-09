@@ -1,6 +1,6 @@
 @extends('admin_layouts.inc')
-@section('title','الدول')
-@section('breadcrumb','الدول')
+@section('title','المدن')
+@section('breadcrumb','المدن')
 @section('styles')
   <link href="{{ asset('/admin_ui/assets/layouts/layout4/css/image.css')}}" rel="stylesheet" type="text/css" />
 @endsection
@@ -13,14 +13,14 @@
       <div class="portlet-title">
         <div class="caption font-dark">
           <i class="icon-settings font-dark"></i>
-          <span class="caption-subject bold uppercase">بيانات الدول</span>
+          <span class="caption-subject bold uppercase">بيانات المدن</span>
         </div>
         <div class="tools"> </div>
       </div>
       <div class="portlet-body">
               <table class="table table-striped table-bordered table-hover" id="descriptions">
                 <thead>
-                  <th class="col-md-1">الدولة</th>
+                  <th class="col-md-1">المدينه</th>
                   <th class="col-md-1">خيارات</th>
                 </thead>
                 <tbody>

@@ -134,15 +134,15 @@
                     </div>
                     <!-- END PAGE HEAD-->
                     <!-- BEGIN PAGE BREADCRUMB -->
-                    <ul class="page-breadcrumb breadcrumb">
-                        <li>
-                            <a href="{{ url('/') }}">الرئيسية</a>
-                            <i class="fa fa-circle"></i>
-                        </li>
-                        <li>
-                            <span class="active">@yield('breadcrumb')</span>
-                        </li>
-                    </ul>
+                    {{--<ul class="page-breadcrumb breadcrumb">--}}
+                        {{--<li>--}}
+                            {{--<a href="{{ url('/') }}">الرئيسية</a>--}}
+                            {{--<i class="fa fa-circle"></i>--}}
+                        {{--</li>--}}
+                        {{--<li>--}}
+                            {{--<span class="active">@yield('breadcrumb')</span>--}}
+                        {{--</li>--}}
+                    {{--</ul>--}}
                     <!-- END PAGE BREADCRUMB -->
                     @yield('content')
                 </div>
@@ -235,8 +235,18 @@
             function populateForm(response, frm) {
             var i;
             for (i in response) {
-                if (i in frm.elements)
+                if (i in frm.elements){
                     frm.elements[i].value = response[i];
+
+                    if(i == "is_transporting" && response["is_transporting"] === 1){
+                        frm.elements[i].checked = true;
+                        frm.elements[i].removeAttribute("value");
+                    }
+                    else if(i == "is_transporting" && response["is_transporting"] === 0){
+                        frm.elements[i].checked = false;
+                        frm.elements[i].removeAttribute("value");
+                    }
+                }
             }
         }
 

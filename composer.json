@@ -26,8 +26,7 @@
             "database/factories"
         ],
         "files": [
-            "app/Helpers/PushNotification.php",
-            "app/helpers/translate.php"
+            "app/Helpers/PushNotification.php"
         ],
         "psr-4": {
             "App\\": "app/"

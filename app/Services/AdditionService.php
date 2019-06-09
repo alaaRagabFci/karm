@@ -25,15 +25,12 @@ class AdditionService
     public function datatables($additions)
     {
         $tableData = Datatables::of($additions)
-            ->addColumn('meal', function (Addition $addition){
-                return $addition->getMeal->name;
-            })
             ->addColumn('actions', function ($data)
             {
                 return view('partials.actionBtns')->with('controller','additions')
                     ->with('id', $data->id)
                     ->render();
-            })->rawColumns(['actions', 'meal'])->make(true);
+            })->rawColumns(['actions'])->make(true);
 
         return $tableData ;
     }
@@ -52,9 +49,8 @@ class AdditionService
     public function createAddition($parameters)
     {
         try {
-            if(Addition::where('name', $parameters['name'])->where('meal_id', $parameters['meal_id'])->first())
+            if(Addition::where('name', $parameters['name'])->first())
                 return \Response::json(['msg'=>'هذه الأضافه موجوده بالفعل'],404);
-
             $addition = new Addition();
             $addition->create($parameters);
             return \Response::json(['msg'=>'تم التسجيل بنجاح'],200);
@@ -91,7 +87,7 @@ class AdditionService
     public function updateAddition($parameters, $additionId)
     {
         try {
-            if(Addition::where('name', $parameters['name'])->where('meal_id', $parameters['meal_id'])->where('id', '!=', $additionId)->first())
+            if(Addition::where('name', $parameters['name'])->where('id', '!=', $additionId)->first())
                 return \Response::json(['msg'=>'هذه الأضافه موجوده بالفعل'],404);
 
             $addition = Addition::findOrFail($additionId);

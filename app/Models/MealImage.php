@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class MealImage extends Model
 {
     protected $table = "meal_images";
-    protected $fillable = ['image', 'meal_id'];
+    protected $fillable = ['image', 'meal_id', 'sort'];
     public $timestamps  = false;
 
     public function getMeal()

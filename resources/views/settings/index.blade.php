@@ -23,9 +23,7 @@
                   <th class="col-md-1">الموقع</th>
                   <th class="col-md-1">رقم الجوال</th>
                   <th class="col-md-1">رقم الطوارئ</th>
-                  <th class="col-md-1">الفيس بوك</th>
-                  <th class="col-md-1">تويتر</th>
-                  <th class="col-md-1">الأنستجرام</th>
+                  <th class="col-md-4">مقدمة تعريفيه</th>
                   <th class="col-md-1">خيارات</th>
                 </thead>
                 <tbody>
@@ -34,9 +32,7 @@
                     <td>{{  $row->location }}</td>
                     <td>{{  $row->phone }}</td>
                     <td>{{  $row->emergency_call }}</td>
-                    <td>{{  $row->facebook }}</td>
-                    <td>{{  $row->twitter }}</td>
-                    <td>{{  $row->instgram }}</td>
+                    <td>{{  $row->informations }}</td>
                     <td>{!! $row->actions !!}</td>
                   </tr>
                   @endforeach
@@ -72,9 +68,7 @@
           {data: 'location', name: 'location'},
           {data: 'phone', name: 'phone'},
           {data: 'emergency_call', name: 'emergency_call'},
-          {data: 'facebook', name: 'facebook'},
-          {data: 'twitter', name: 'twitter'},
-          {data: 'instgram', name: 'instgram'},
+          {data: 'informations', name: 'informations'},
           {data: 'actions', name: 'actions', orderable: false, searchable: false}
           ]
         })

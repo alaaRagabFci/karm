@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 07, 2019 at 05:20 AM
+-- Generation Time: Jun 09, 2019 at 09:34 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -31,11 +31,17 @@ SET time_zone = "+00:00";
 CREATE TABLE `additions` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `price` double NOT NULL,
-  `meal_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `additions`
+--
+
+INSERT INTO `additions` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(3, 'كاتشب', '2019-05-08 01:11:45', '2019-05-08 01:11:45'),
+(5, 'سلطات', '2019-05-08 01:34:22', '2019-05-08 01:34:22');
 
 -- --------------------------------------------------------
 
@@ -58,9 +64,9 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`, `image`, `sort`, `is_active`, `created_at`, `updated_at`) VALUES
-(15, 'الرياض', '/images/uploads/15571569774130973de9feff92a36de98be86be580image.png', 2, 1, '2019-05-06 15:36:17', '2019-05-07 00:47:37'),
-(16, 'Hossam2', '/images/uploads/1557157505b821e5525f8b2eaa05876817fb8d4e25image.png', 1, 1, '2019-05-06 15:45:05', '2019-05-07 00:47:36'),
-(17, 'alaa', '/images/uploads/15571653435085cc6a3e753e40a67347caa8c0fb59image.png', 3, 1, '2019-05-06 17:55:43', '2019-05-07 00:47:37');
+(15, 'الرياض', '/images/uploads/15571569774130973de9feff92a36de98be86be580image.png', 3, 1, '2019-05-06 15:36:17', '2019-05-07 15:10:09'),
+(16, 'Hossam255', '/images/uploads/155728456202699003733cc23c189fe8358029671eimage.png', 1, 0, '2019-05-06 15:45:05', '2019-05-15 00:59:17'),
+(17, 'alaa', '/images/uploads/15571653435085cc6a3e753e40a67347caa8c0fb59image.png', 2, 1, '2019-05-06 17:55:43', '2019-05-15 00:59:17');
 
 -- --------------------------------------------------------
 
@@ -92,7 +98,7 @@ CREATE TABLE `countries` (
 --
 
 INSERT INTO `countries` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'الرياض', '2019-04-29 12:48:09', '2019-05-03 18:17:02');
+(1, 'الرياض', '2019-04-29 12:48:09', '2019-05-08 03:01:41');
 
 -- --------------------------------------------------------
 
@@ -117,7 +123,33 @@ CREATE TABLE `meals` (
 --
 
 INSERT INTO `meals` (`id`, `name`, `price`, `calories`, `contents`, `category_id`, `is_active`, `created_at`, `updated_at`) VALUES
-(10, 'pizza', 55, 55, 'ggg', 15, 1, '2019-05-07 00:29:10', '2019-05-07 00:29:10');
+(10, 'pizza', 55, 55, 'ggg', 15, 1, '2019-05-07 00:29:10', '2019-05-07 00:29:10'),
+(11, 'Burrger', 200, 55, 'ggg', 15, 1, '2019-05-07 00:29:10', '2019-05-07 00:29:10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `meal_additions`
+--
+
+CREATE TABLE `meal_additions` (
+  `id` int(11) NOT NULL,
+  `meal_id` int(11) NOT NULL,
+  `addition_id` int(11) NOT NULL,
+  `price` double NOT NULL,
+  `sort` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `meal_additions`
+--
+
+INSERT INTO `meal_additions` (`id`, `meal_id`, `addition_id`, `price`, `sort`, `created_at`, `updated_at`) VALUES
+(1, 10, 3, 5500, 1, '2019-05-08 01:11:57', '2019-05-08 01:45:30'),
+(2, 10, 5, 8, 2, '2019-05-08 01:34:44', '2019-05-08 01:45:30'),
+(4, 11, 5, 10, 1, '2019-05-08 02:04:56', '2019-05-08 02:05:20');
 
 -- --------------------------------------------------------
 
@@ -128,15 +160,18 @@ INSERT INTO `meals` (`id`, `name`, `price`, `calories`, `contents`, `category_id
 CREATE TABLE `meal_images` (
   `id` int(11) NOT NULL,
   `image` varchar(255) NOT NULL,
-  `meal_id` int(11) NOT NULL
+  `meal_id` int(11) NOT NULL,
+  `sort` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `meal_images`
 --
 
-INSERT INTO `meal_images` (`id`, `image`, `meal_id`) VALUES
-(42, '/images/uploads/1557188950e2eaf4d5c92b1f181b8dc099965298b3image.png', 10);
+INSERT INTO `meal_images` (`id`, `image`, `meal_id`, `sort`) VALUES
+(42, '/images/uploads/1557188950e2eaf4d5c92b1f181b8dc099965298b3image.png', 10, 1),
+(46, '/images/uploads/15572510657ec6c6dd3410ec0e9d4ae7748c160ce0image.png', 10, 3),
+(47, '/images/uploads/1557251065363a221a0ff3993338dec453ecb674e6image.png', 10, 2);
 
 -- --------------------------------------------------------
 
@@ -229,15 +264,16 @@ CREATE TABLE `order_details` (
 --
 
 CREATE TABLE `promocodes` (
+  `promo_type` enum('Discount','Balance') NOT NULL,
   `id` int(11) NOT NULL,
   `value` int(11) NOT NULL,
   `code` varchar(50) NOT NULL,
   `type` enum('Expiration','Number') NOT NULL,
-  `expiration_date` date DEFAULT NULL,
+  `expiration_date` datetime DEFAULT NULL,
   `trips_limit` int(11) DEFAULT NULL,
   `description` text NOT NULL,
   `is_active` tinyint(1) NOT NULL DEFAULT '1',
-  `is_general` tinyint(1) NOT NULL DEFAULT '1',
+  `category_id` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -246,10 +282,10 @@ CREATE TABLE `promocodes` (
 -- Dumping data for table `promocodes`
 --
 
-INSERT INTO `promocodes` (`id`, `value`, `code`, `type`, `expiration_date`, `trips_limit`, `description`, `is_active`, `is_general`, `created_at`, `updated_at`) VALUES
-(5, 55, 'asd123', 'Number', NULL, 5, 'asd', 1, 1, '2019-05-02 18:33:10', '2019-05-07 00:49:49'),
-(6, 44, '444', 'Number', NULL, 44, 'kkk', 1, 1, '2019-05-03 13:24:15', '2019-05-07 00:49:55'),
-(7, 55, 'jjjىىىىىى', 'Expiration', '2002-02-20', NULL, 'سس', 1, 1, '2019-05-03 18:24:20', '2019-05-07 00:49:57');
+INSERT INTO `promocodes` (`promo_type`, `id`, `value`, `code`, `type`, `expiration_date`, `trips_limit`, `description`, `is_active`, `category_id`, `created_at`, `updated_at`) VALUES
+('Balance', 5, 55, 'asd123', 'Number', NULL, NULL, 'asd', 1, NULL, '2019-05-02 18:33:10', '2019-05-08 03:56:41'),
+('Discount', 6, 44, '444', 'Number', NULL, 44, 'kkk', 1, NULL, '2019-05-03 13:24:15', '2019-05-08 03:56:44'),
+('Balance', 7, 55, 'jjjىىىىىى', 'Expiration', '2002-02-20 00:00:00', NULL, 'سس', 1, 15, '2019-05-03 18:24:20', '2019-05-08 04:04:49');
 
 -- --------------------------------------------------------
 
@@ -297,6 +333,7 @@ CREATE TABLE `regions` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `country_id` int(11) NOT NULL,
+  `is_transporting` tinyint(1) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -305,8 +342,8 @@ CREATE TABLE `regions` (
 -- Dumping data for table `regions`
 --
 
-INSERT INTO `regions` (`id`, `name`, `country_id`, `created_at`, `updated_at`) VALUES
-(28, 'Hossam2', 1, '2019-05-03 19:05:33', '2019-05-03 19:05:33');
+INSERT INTO `regions` (`id`, `name`, `country_id`, `is_transporting`, `created_at`, `updated_at`) VALUES
+(37, 'alaa', 1, 1, '2019-05-08 03:01:19', '2019-05-08 03:03:06');
 
 -- --------------------------------------------------------
 
@@ -321,15 +358,16 @@ CREATE TABLE `settings` (
   `instgram` varchar(100) NOT NULL,
   `location` varchar(255) NOT NULL,
   `phone` varchar(50) NOT NULL,
-  `emergency_call` int(11) NOT NULL
+  `emergency_call` int(11) NOT NULL,
+  `informations` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `settings`
 --
 
-INSERT INTO `settings` (`id`, `facebook`, `twitter`, `instgram`, `location`, `phone`, `emergency_call`) VALUES
-(1, 'https://www.facebook.com/', 'https://www.twitter.com/', 'https://www.instgram.com/', 'https://goo.gl/maps/XcUCWUL1Wpa9ZDbB6', '+92145688', 1911);
+INSERT INTO `settings` (`id`, `facebook`, `twitter`, `instgram`, `location`, `phone`, `emergency_call`, `informations`) VALUES
+(1, 'https://www.facebook.com/', 'https://www.twitter.com/', 'https://www.instgram.com/', 'https://goo.gl/maps/XcUCWUL1Wpa9ZDbB6', '+92145688', 1911, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.');
 
 -- --------------------------------------------------------
 
@@ -438,14 +476,6 @@ CREATE TABLE `user_addresses` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `user_addresses`
---
-
-INSERT INTO `user_addresses` (`id`, `the_user_id`, `region_id`, `latitude`, `longitude`, `description`, `street`, `created_at`, `updated_at`) VALUES
-(4, 15, 28, 12.5445, 13.45554, 'شش', 'طه حسين', '2019-05-04 14:28:53', '2019-05-04 14:28:53'),
-(5, 14, 28, 30.0444196, 31.23571160000006, 'ggg', 'طه حسين2', '2019-05-05 02:58:48', '2019-05-05 02:58:48');
-
 -- --------------------------------------------------------
 
 --
@@ -504,8 +534,7 @@ INSERT INTO `workers` (`id`, `username`, `display_name`, `email`, `phone`, `imag
 -- Indexes for table `additions`
 --
 ALTER TABLE `additions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `meal_id` (`meal_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `categories`
@@ -535,6 +564,14 @@ ALTER TABLE `meals`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`),
   ADD KEY `category_id` (`category_id`);
+
+--
+-- Indexes for table `meal_additions`
+--
+ALTER TABLE `meal_additions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `meal_id` (`meal_id`),
+  ADD KEY `addition_id` (`addition_id`);
 
 --
 -- Indexes for table `meal_images`
@@ -587,7 +624,8 @@ ALTER TABLE `order_details`
 --
 ALTER TABLE `promocodes`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `code` (`code`);
+  ADD UNIQUE KEY `code` (`code`),
+  ADD KEY `category_id` (`category_id`);
 
 --
 -- Indexes for table `promocodes_orders`
@@ -680,7 +718,7 @@ ALTER TABLE `workers`
 -- AUTO_INCREMENT for table `additions`
 --
 ALTER TABLE `additions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -704,13 +742,19 @@ ALTER TABLE `countries`
 -- AUTO_INCREMENT for table `meals`
 --
 ALTER TABLE `meals`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `meal_additions`
+--
+ALTER TABLE `meal_additions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `meal_images`
 --
 ALTER TABLE `meal_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `meal_promocodes`
@@ -722,7 +766,7 @@ ALTER TABLE `meal_promocodes`
 -- AUTO_INCREMENT for table `meal_sizes`
 --
 ALTER TABLE `meal_sizes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `notifications`
@@ -740,13 +784,13 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `promocodes`
 --
 ALTER TABLE `promocodes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `promocodes_orders`
@@ -764,7 +808,7 @@ ALTER TABLE `receiving_types`
 -- AUTO_INCREMENT for table `regions`
 --
 ALTER TABLE `regions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -800,7 +844,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_addresses`
 --
 ALTER TABLE `user_addresses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user_devices`
@@ -819,12 +863,6 @@ ALTER TABLE `workers`
 --
 
 --
--- Constraints for table `additions`
---
-ALTER TABLE `additions`
-  ADD CONSTRAINT `additions_ibfk_1` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `category_promocodes`
 --
 ALTER TABLE `category_promocodes`
@@ -836,6 +874,13 @@ ALTER TABLE `category_promocodes`
 --
 ALTER TABLE `meals`
   ADD CONSTRAINT `meals_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `meal_additions`
+--
+ALTER TABLE `meal_additions`
+  ADD CONSTRAINT `meal_additions_ibfk_1` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `meal_additions_ibfk_2` FOREIGN KEY (`addition_id`) REFERENCES `additions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `meal_images`
@@ -871,6 +916,12 @@ ALTER TABLE `orders`
 ALTER TABLE `order_details`
   ADD CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`meal_id`) REFERENCES `meals` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `promocodes`
+--
+ALTER TABLE `promocodes`
+  ADD CONSTRAINT `promocodes_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `promocodes_orders`

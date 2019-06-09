@@ -31,8 +31,9 @@
         </div>
               <table class="table table-striped table-bordered table-hover" id="descriptions">
                 <thead>
-                  <th class="col-md-1">الدولة</th>
+                  <th class="col-md-1">المدينه</th>
                   <th class="col-md-1">الحي</th>
+                  <th class="col-md-1">التوصيل</th>
                   <th class="col-md-1">خيارات</th>
                 </thead>
                 <tbody>
@@ -40,6 +41,7 @@
                   <tr>
                     <td>{{  $row->countryName }}</td>
                     <td>{{  $row->name }}</td>
+                    <td>{{  $row->is_transporting }}</td>
                     <td>{!! $row->actions !!}</td>
                   </tr>
                   @endforeach
@@ -75,6 +77,7 @@
           "columns": [
           {data: 'countryName', name: 'countryName'},
           {data: 'name', name: 'name'},
+          {data: 'is_transporting', name: 'is_transporting'},
           {data: 'actions', name: 'actions', orderable: false, searchable: false}
           ]
         })

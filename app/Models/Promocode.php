@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Promocode extends Model
 {
-    protected $fillable = ['value', 'code', 'type', 'expiration_date', 'trips_limit', 'description', 'is_general', 'is_active'];
+    protected $fillable = ['promo_type', 'value', 'code', 'type', 'expiration_date', 'trips_limit', 'description', 'category_id', 'is_active'];
     public $timestamps  = false;
 
     public function getCateories()
@@ -22,5 +22,10 @@ class Promocode extends Model
     public function getMeals()
     {
         return $this->hasMany('App\Models\Meal');
+    }
+
+    public function getCategory()
+    {
+        return $this->belongsTo('App\Models\Category','category_id','id');
     }
 }

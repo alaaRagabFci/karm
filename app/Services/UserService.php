@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Services;
+use App\Models\UserDevice;
 use App\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Yajra\Datatables\Datatables as Datatables;
 use App\Models\TheUser;
+use App\Helpers\PushNotification;
 
 class UserService
 {
@@ -168,5 +170,30 @@ class UserService
     public function deleteUser($userId)
     {
         return TheUser::find($userId)->delete();
+    }
+
+    public function sendNotification($message)
+    {
+        $users = UserDevice::get();
+        $tokens = [];
+
+        foreach($users as $user) {
+            $tokens[] = $user['device_token'];
+        }
+
+        $notification = PushNotification::push_notification(
+            [
+                "target" => $tokens,
+                "title" => 'كرم الريف',
+                "userType" => 'User',
+                "type" => 'Admin',
+                "message" => $message
+            ]
+        );
+
+        if($notification["status"])
+            return \Response::json(['msg'=>'تم الأرسال بنجاح'],200);
+        else
+            return \Response::json(['msg'=>'حدث خطا'],404);
     }
 }

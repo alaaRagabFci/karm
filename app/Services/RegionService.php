@@ -28,12 +28,18 @@ class RegionService
             ->addColumn('countryName', function (Region $region){
                 return $region->getCountry->name;
             })
+            ->addColumn('is_transporting', function (Region $region){
+                if($region->is_transporting)
+                    return '<span class="label label-sm label-primary"> توصيل </span>';
+                else
+                    return '<span class="label label-sm label-warning">لأ يوجد توصيل</span>';
+            })
             ->addColumn('actions', function ($data)
             {
                 return view('partials.actionBtns')->with('controller','regions')
                     ->with('id', $data->id)
                     ->render();
-            })->rawColumns(['actions', 'countryName'])->make(true);
+            })->rawColumns(['actions', 'countryName', 'is_transporting'])->make(true);
 
         return $tableData ;
     }
@@ -54,6 +60,11 @@ class RegionService
         try {
             if(Region::where('name', $parameters['name'])->first())
                 return \Response::json(['msg'=>'هذا الحي موجود بالفعل'],404);
+
+            if(isset($parameters['is_transporting']) && $parameters['is_transporting'] == 'on')
+                $parameters['is_transporting'] = 1;
+            else
+                $parameters['is_transporting'] = 0;
 
             $region = new Region();
             $region->create($parameters);
@@ -93,6 +104,11 @@ class RegionService
         try {
             if(Region::where('name', $parameters['name'])->where('id', '!=', $regionId)->first())
                 return \Response::json(['msg'=>'هذا الحي موجود بالفعل'],404);
+
+            if(isset($parameters['is_transporting']) && $parameters['is_transporting'] == 'on')
+                $parameters['is_transporting'] = 1;
+            else
+                $parameters['is_transporting'] = 0;
 
             $region = Region::findOrFail($regionId);
             $region->update($parameters);

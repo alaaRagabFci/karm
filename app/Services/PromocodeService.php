@@ -31,12 +31,24 @@ class PromocodeService
                 else
                     return '<span class="label label-sm label-warning">غير نشط</span>';
             })
+            ->addColumn('category', function (Promocode $promocode){
+                if($promocode->getCategory)
+                    return $promocode->getCategory->name;
+                else
+                    return 'عام';
+            })
+            ->addColumn('promo_type', function (Promocode $promocode){
+                if($promocode->promo_type == 'Balance')
+                    return '<span class="label label-sm label-primary"> رصيد </span>';
+                else
+                    return '<span class="label label-sm label-success">نسبه</span>';
+            })
             ->addColumn('actions', function ($data)
             {
                 return view('promocodes.actionBtns')->with('controller','promocodes')
                     ->with('id', $data->id)
                     ->render();
-            })->rawColumns(['actions', 'is_active'])->make(true);
+            })->rawColumns(['actions', 'is_active', 'promo_type', 'category'])->make(true);
 
         return $tableData ;
     }
@@ -57,7 +69,8 @@ class PromocodeService
         try {
             if(Promocode::where('code', $parameters['code'])->first())
                 return \Response::json(['msg'=>'هذا الكود موجود بالفعل'],404);
-
+            if(!$parameters['category_id'])
+                $parameters['category_id'] = null;
             $promocode = new Promocode();
             $promocode->create($parameters);
             return \Response::json(['msg'=>'تم التسجيل بنجاح'],200);

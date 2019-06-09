@@ -36,6 +36,11 @@
     <span class="help-block with-errors errorName"></span>
 </div>
 
+<div class="form-group">
+    <label for="exampleInputPassword1">مقدمه تعريفيه عن المطعم</label>
+    <textarea rows="4" cols="30" name="informations" class="form-control" required></textarea>
+</div>
+
 
 
 

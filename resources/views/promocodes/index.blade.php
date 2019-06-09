@@ -32,10 +32,12 @@
               <table class="table table-striped table-bordered table-hover" id="descriptions">
                 <thead>
                   <th class="col-md-1">رقم الكوبون</th>
+                  <th class="col-md-1">النوع</th>
                   <th class="col-md-1">الكود</th>
                   <th class="col-md-1">القيمه</th>
                   <th class="col-md-1">نوع الكوبون</th>
                   <th class="col-md-1">وصف</th>
+                  <th class="col-md-1">القسم</th>
                   <th class="col-md-1">الحاله</th>
                   <th class="col-md-1">خيارات</th>
                 </thead>
@@ -43,10 +45,12 @@
                   @foreach ($tableData->getData()->data as $row)
                   <tr>
                     <td>{{  $row->id }}</td>
+                    <td>{{  $row->promo_type }}</td>
                     <td>{{  $row->code }}</td>
                     <td>{{  $row->value }}</td>
                     <td>{{  $row->type }}</td>
                     <td>{{  $row->description }}</td>
+                    <td>{{  $row->category }}</td>
                     <td>{{  $row->is_active }}</td>
                     <td>{!! $row->actions !!}</td>
                   </tr>
@@ -106,10 +110,12 @@
           "ajax": {{ $tableData->getData()->recordsFiltered }},
           "columns": [
           {data: 'id', name: 'id'},
+          {data: 'promo_type', name: 'promo_type'},
           {data: 'code', name: 'code'},
           {data: 'value', name: 'value'},
           {data: 'type', name: 'type'},
           {data: 'description', name: 'description'},
+          {data: 'category', name: 'category'},
           {data: 'is_active', name: 'is_active'},
           {data: 'actions', name: 'actions', orderable: false, searchable: false}
           ],
